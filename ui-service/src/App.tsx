@@ -1,7 +1,7 @@
+import { About } from "@components/About";
+import { Home } from "@components/Home";
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { About } from "./components/About";
-import { Home } from "./components/Home";
 
 function App() {
   return (
