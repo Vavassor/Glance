@@ -1,9 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "./Button";
-
-export interface ToolbarProps {
-  ariaLabel: string;
-}
 
 enum ButtonKey {
   Reply = "reply",
@@ -16,11 +13,16 @@ interface Control {
   label: string;
 }
 
+export interface ToolbarProps {
+  ariaLabel: string;
+}
+
 export const Toolbar: React.FC<ToolbarProps> = ({ ariaLabel }) => {
+  const { t } = useTranslation();
   const [controls, _] = useState<Control[]>([
-    { buttonKey: ButtonKey.Reply, label: "Reply" },
-    { buttonKey: ButtonKey.Share, label: "Share" },
-    { buttonKey: ButtonKey.Save, label: "Save" },
+    { buttonKey: ButtonKey.Reply, label: t("post_actions.reply_button_label") },
+    { buttonKey: ButtonKey.Share, label: t("post_actions.share_button_label") },
+    { buttonKey: ButtonKey.Save, label: t("post_actions.save_button_label") },
   ]);
   const controlsByKey = useRef<Map<string, HTMLElement>>(new Map());
   const [focusedKey, setFocusedKey] = useState<string>(ButtonKey.Reply);

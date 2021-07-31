@@ -5,5 +5,10 @@
   "main_nav": {
     "about_link_label": "About",
     "home_link_label": "Home"
+  },
+  "post_actions": {
+    "reply_button_label": "Reply",
+    "save_button_label": "Save",
+    "share_button_label": "Share"
   }
 }
