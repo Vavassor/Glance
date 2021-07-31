@@ -1,15 +1,19 @@
 import { AppLoader } from "Components/AppLoader";
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
 import "Utilities/Internationalization";
 import App from "./App";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
+import { store } from "./Store";
 
 ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={AppLoader}>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </Suspense>
   </React.StrictMode>,
   document.getElementById("root")

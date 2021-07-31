@@ -2,14 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "./Button";
 
-enum ButtonKey {
-  Reply = "reply",
-  Save = "save",
-  Share = "share",
-}
-
 interface Control {
-  buttonKey: ButtonKey;
+  buttonKey: string;
   label: string;
 }
 
@@ -20,12 +14,12 @@ export interface ToolbarProps {
 export const Toolbar: React.FC<ToolbarProps> = ({ ariaLabel }) => {
   const { t } = useTranslation();
   const [controls, _] = useState<Control[]>([
-    { buttonKey: ButtonKey.Reply, label: t("post_actions.reply_button_label") },
-    { buttonKey: ButtonKey.Share, label: t("post_actions.share_button_label") },
-    { buttonKey: ButtonKey.Save, label: t("post_actions.save_button_label") },
+    { buttonKey: "reply", label: t("post_actions.reply_button_label") },
+    { buttonKey: "share", label: t("post_actions.share_button_label") },
+    { buttonKey: "save", label: t("post_actions.save_button_label") },
   ]);
   const controlsByKey = useRef<Map<string, HTMLElement>>(new Map());
-  const [focusedKey, setFocusedKey] = useState<string>(ButtonKey.Reply);
+  const [focusedKey, setFocusedKey] = useState<string>(controls[0].buttonKey);
 
   const focusControl = (control: Control) => {
     setFocusedKey(control.buttonKey);

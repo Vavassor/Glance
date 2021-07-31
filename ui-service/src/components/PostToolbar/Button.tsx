@@ -4,7 +4,10 @@ import React, {
   forwardRef,
   KeyboardEventHandler,
 } from "react";
+import { useAppSelector } from "ReduxHooks";
+import { selectLayoutDirection } from "Slices/ThemeSlice";
 import { Key } from "Types/Key";
+import { LayoutDirection } from "Types/Theme";
 
 export interface ButtonProps
   extends DetailedHTMLProps<
@@ -32,14 +35,24 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
+    const layoutDirection = useAppSelector(selectLayoutDirection);
+
     const handleKeyDown: KeyboardEventHandler<HTMLButtonElement> = (event) => {
       switch (event.key) {
         case Key.ArrowLeft:
-          onFocusPrior(buttonKey);
+          if (layoutDirection === LayoutDirection.LTR) {
+            onFocusPrior(buttonKey);
+          } else {
+            onFocusNext(buttonKey);
+          }
           break;
 
         case Key.ArrowRight:
-          onFocusNext(buttonKey);
+          if (layoutDirection === LayoutDirection.LTR) {
+            onFocusNext(buttonKey);
+          } else {
+            onFocusPrior(buttonKey);
+          }
           break;
 
         case Key.End:
