@@ -82,6 +82,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({ ariaLabel }) => {
         return (
           <Button
             buttonKey={buttonKey}
+            key={buttonKey}
             label={label}
             onClick={handleClick}
             onFocusEnd={handleFocusEnd}
