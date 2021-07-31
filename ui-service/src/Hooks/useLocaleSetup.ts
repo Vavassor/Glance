@@ -1,4 +1,6 @@
-import { Dispatch, useEffect } from "react";
+import { useEffect } from "react";
+import { useAppDispatch } from "ReduxHooks";
+import { setLayoutDirection } from "Slices/ThemeSlice";
 import { LayoutDirection } from "Types/Theme";
 import { i18next } from "Utilities/Internationalization";
 import { parseLanguageTag } from "Utilities/LanguageTag";
@@ -27,6 +29,8 @@ const rtlLanguages = [
 ];
 
 export const useLocaleSetup = () => {
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     const handleChangeLanguage = (language: string) => {
       const languageTag = parseLanguageTag(language);
@@ -40,7 +44,7 @@ export const useLocaleSetup = () => {
         const { documentElement } = document;
         documentElement.dir = direction;
         documentElement.lang = language;
-        // themeDispatch(setLayoutDirection(layoutDirection));
+        dispatch(setLayoutDirection(layoutDirection));
       }
     };
 
@@ -59,5 +63,5 @@ export const useLocaleSetup = () => {
       i18next.off("initialized");
       i18next.off("languageChanged");
     };
-  }, []);
+  }, [dispatch]);
 };
