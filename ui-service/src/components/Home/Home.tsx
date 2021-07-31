@@ -3,7 +3,7 @@ import { Header } from "Components/Header";
 import { PostCard } from "Components/PostCard";
 import React, { useEffect, useState } from "react";
 import { AsyncStatus } from "Types/AsyncStatus";
-import { Post } from "Types/Post";
+import { Post } from "Types/Domain/Post";
 import { getAccountTimelinePosts } from "Utilities/Api";
 import { getRefreshedAccessToken } from "Utilities/Auth";
 
@@ -42,10 +42,10 @@ export const Home: React.FC = () => {
       </h2>
       <Feed
         articleProps={{
-          className:
-            "focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent",
+          className: "focus:outline-none focus:ring-2 focus:ring-focus",
         }}
         articles={posts}
+        feedProps={{ className: "gap-3" }}
         getKey={getKey}
         idPrefix="latest-posts"
         isLoadingArticles={postLoadStatus === AsyncStatus.Pending}

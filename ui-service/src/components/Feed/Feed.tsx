@@ -1,18 +1,22 @@
 import React, {
+  DetailedHTMLProps,
+  HTMLAttributes,
   KeyboardEvent,
   KeyboardEventHandler,
   ReactNode,
   useEffect,
   useRef,
 } from "react";
-import { Article, ArticleProps } from "./Article";
 import { Key } from "Types/Key";
+import { Article, ArticleProps } from "./Article";
+import clsx from "clsx";
 
 export interface FeedProps<T> {
   articleProps?: Partial<ArticleProps>;
   articles: T[];
   elementAfterFeed?: HTMLElement | null;
   elementBeforeFeed?: HTMLElement | null;
+  feedProps?: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
   getKey: (article: T) => string;
   idPrefix: string;
   isLoadingArticles: boolean;
@@ -30,12 +34,14 @@ export function Feed<T>({
   articles,
   elementAfterFeed,
   elementBeforeFeed,
+  feedProps,
   getKey,
   idPrefix,
   isLoadingArticles,
   labelId,
   renderArticle,
 }: FeedProps<T>) {
+  const { className, ...remainingFeedProps } = feedProps || {};
   const articlesByKey = useRef<Map<string, HTMLElement>>(new Map());
 
   const focusArticle = (article: T) => {
@@ -89,7 +95,13 @@ export function Feed<T>({
   }, [articles]);
 
   return (
-    <div aria-busy={isLoadingArticles} aria-labelledby={labelId} role="feed">
+    <div
+      aria-busy={isLoadingArticles}
+      aria-labelledby={labelId}
+      className={clsx("flex flex-col", feedProps?.className)}
+      role="feed"
+      {...remainingFeedProps}
+    >
       {articles.map((article, index) => {
         const key = getKey(article);
         const labelId = `${idPrefix}-${key}-label`;

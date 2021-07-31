@@ -1,12 +1,16 @@
-import React from "react";
+import { AppLoader } from "Components/AppLoader";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+import "Utilities/Internationalization";
 import App from "./App";
+import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Suspense fallback={AppLoader}>
+      <App />
+    </Suspense>
   </React.StrictMode>,
   document.getElementById("root")
 );
