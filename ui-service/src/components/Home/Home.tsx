@@ -42,7 +42,7 @@ export const Home: React.FC = () => {
       </h2>
       <Feed
         articleProps={{
-          className: "focus:outline-none focus:ring-2 focus:ring-focus",
+          className: "dark:text-white focus:outline-none focus:ring-2 focus:ring-focus",
         }}
         articles={posts}
         feedProps={{ className: "gap-3" }}

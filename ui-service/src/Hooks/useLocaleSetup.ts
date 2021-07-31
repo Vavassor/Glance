@@ -1,5 +1,5 @@
+import { useAppDispatch } from "Hooks/ReduxHooks";
 import { useEffect } from "react";
-import { useAppDispatch } from "ReduxHooks";
 import { setLayoutDirection } from "Slices/ThemeSlice";
 import { LayoutDirection } from "Types/Theme";
 import { i18next } from "Utilities/Internationalization";

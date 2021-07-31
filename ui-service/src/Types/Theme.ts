@@ -4,3 +4,8 @@ export enum LayoutDirection {
   /** right-to-left */
   RTL,
 }
+
+export enum ThemeMode {
+  Dark,
+  Light,
+}
