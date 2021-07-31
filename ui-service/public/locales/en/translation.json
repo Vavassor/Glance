@@ -1,0 +1,9 @@
+{
+  "app": {
+    "title": "Glance"
+  },
+  "main_nav": {
+    "about_link_label": "About",
+    "home_link_label": "Home"
+  }
+}

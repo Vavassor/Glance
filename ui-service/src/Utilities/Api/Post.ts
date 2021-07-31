@@ -1,11 +1,46 @@
-import { Post } from "Types/Post";
+import { AccountPublic, Post } from "Types/Domain";
+
+const placeholderAccount: AccountPublic = {
+  id: "a",
+  username: "name",
+};
 
 const placeholderPosts: Post[] = [
-  { id: "a", title: "Chipmunk" },
-  { id: "b", title: "Groundhog" },
-  { id: "c", title: "Beaver" },
-  { id: "d", title: "Gopher" },
-  { id: "e", title: "Prairie dog" },
+  {
+    account: placeholderAccount,
+    content: "something",
+    creationDate: new Date("2021-07-30T21:52:52Z"),
+    id: "a",
+    title: "Chipmunk",
+  },
+  {
+    account: placeholderAccount,
+    content: "something",
+    creationDate: new Date("2021-07-30T21:52:52Z"),
+    id: "b",
+    title: "Groundhog",
+  },
+  {
+    account: placeholderAccount,
+    content: "something",
+    creationDate: new Date("2021-07-30T21:52:52Z"),
+    id: "c",
+    title: "Beaver",
+  },
+  {
+    account: placeholderAccount,
+    content: "something",
+    creationDate: new Date("2021-07-30T21:52:52Z"),
+    id: "d",
+    title: "Gopher",
+  },
+  {
+    account: placeholderAccount,
+    content: "something",
+    creationDate: new Date("2021-07-30T21:52:52Z"),
+    id: "e",
+    title: "Prairie dog",
+  },
 ];
 
 export const getAccountTimelinePosts = async (
