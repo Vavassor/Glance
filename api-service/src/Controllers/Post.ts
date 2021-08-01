@@ -1,8 +1,8 @@
 import { RequestHandler } from "express";
-import { AccountPublicAdo } from "@Types/Ado/AccountPublicAdo";
-import { ErrorAdo } from "@Types/Ado/ErrorAdo";
-import { PostAdo } from "@Types/Ado/PostAdo";
-import { ParamsDictionary, ParsedQs } from "@Types/Express";
+import { AccountPublicAdo } from "Types/Ado/AccountPublicAdo";
+import { ErrorAdo } from "Types/Ado/ErrorAdo";
+import { PostAdo } from "Types/Ado/PostAdo";
+import { ParamsDictionary, ParsedQs } from "Types/Express";
 
 const placeholderAccount: AccountPublicAdo = {
   id: "a",
