@@ -2,7 +2,7 @@ import express from "express";
 import i18next from "i18next";
 import FilesystemBackend from "i18next-fs-backend";
 import i18nextHttpMiddleware from "i18next-http-middleware";
-import path, { join } from "path";
+import { join, resolve } from "path";
 import { HttpStatus } from "Types/HttpStatus";
 import { Environment, loadConfig } from "Utilities/Config";
 import { logError } from "Utilities/Logging";
@@ -38,14 +38,14 @@ app.use(express.json());
 app.use(i18nextHttpMiddleware.handle(i18next));
 
 if (config.environment === Environment.Production) {
-  app.use(express.static(path.resolve(config.fileRoot, "../../ui-service/build")));
+  app.use(express.static(resolve(config.fileRoot, "../ui-service/build")));
 }
 
 app.use(routes);
 
 app.get("*", (request, response) => {
   response.sendFile(
-    path.resolve(config.fileRoot, "../../ui-service/build", "index.html")
+    resolve(config.fileRoot, "../ui-service/build", "index.html")
   );
 });
 
