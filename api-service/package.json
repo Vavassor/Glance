@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc --project ./",
-    "dev": "cross-env NODE_ENV=development ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev": "cross-env NODE_ENV=development ts-node-dev --respawn -r tsconfig-paths/register --transpile-only src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -26,6 +26,7 @@
     "@types/node": "^16.4.9",
     "ts-node": "^10.1.0",
     "ts-node-dev": "^1.1.8",
+    "tsconfig-paths": "^3.10.1",
     "typescript": "^4.3.5"
   }
 }

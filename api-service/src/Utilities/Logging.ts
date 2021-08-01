@@ -1,6 +1,6 @@
-import { config } from "server";
+import { config } from "../server";
 import { serializeError } from "serialize-error";
-import { Environment } from "Utilities/Config";
+import { Environment } from "@Utilities/Config";
 
 export const logError = (message: string, error?: any) => {
   const serialized = serializeError(error);
