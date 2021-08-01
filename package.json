@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development ts-node-dev --respawn -r tsconfig-paths/register --transpile-only src/server.ts",
-    "heroku-postbuild": "tsc && cd ui-service && yarn install && yarn build",
+    "heroku-postbuild": "tsc && cd react-app && yarn install && yarn build",
     "start": "cross-env NODE_PATH=./dist node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

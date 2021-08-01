@@ -38,14 +38,14 @@ app.use(express.json());
 app.use(i18nextHttpMiddleware.handle(i18next));
 
 if (config.environment === Environment.Production) {
-  app.use(express.static(resolve(config.fileRoot, "../ui-service/build")));
+  app.use(express.static(resolve(config.fileRoot, "../react-app/build")));
 }
 
 app.use(routes);
 
 app.get("*", (request, response) => {
   response.sendFile(
-    resolve(config.fileRoot, "../ui-service/build", "index.html")
+    resolve(config.fileRoot, "../react-app/build", "index.html")
   );
 });
 
