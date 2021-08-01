@@ -3,11 +3,11 @@ import i18next from "i18next";
 import FilesystemBackend from "i18next-fs-backend";
 import i18nextHttpMiddleware from "i18next-http-middleware";
 import { join } from "path";
-import { router as routes } from "@Routes/index";
-import { HttpStatus } from "@Types/HttpStatus";
-import { loadConfig } from "@Utilities/Config";
-import { logError } from "@Utilities/Logging";
-import { getErrorAdoFromErrorSingle } from "@Utilities/Mapping/ErrorAdo";
+import { HttpStatus } from "Types/HttpStatus";
+import { loadConfig } from "Utilities/Config";
+import { logError } from "Utilities/Logging";
+import { getErrorAdoFromErrorSingle } from "Utilities/Mapping/ErrorAdo";
+import { router as routes } from "./Routes";
 
 process.on("uncaughtException", (error) => {
   logError("An uncaught exception occurred.", error);
