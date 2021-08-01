@@ -1,11 +1,12 @@
 {
-  "name": "api-service",
+  "name": "glance",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc --project ./",
     "dev": "cross-env NODE_ENV=development ts-node-dev --respawn -r tsconfig-paths/register --transpile-only src/server.ts",
+    "heroku-postbuild": "tsc && cd react-app && yarn install && yarn build",
+    "start": "cross-env NODE_PATH=./dist node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
