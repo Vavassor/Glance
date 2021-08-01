@@ -1,0 +1,9 @@
+{
+  "page_not_found": {
+    "api_error_details": "We could not find the page \"{{path}}\".",
+    "api_error_message": "Page not found",
+    "heading": "Page not found",
+    "message": "We could not find the above page.",
+    "title": "Page not found"
+  }
+}
