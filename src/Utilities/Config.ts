@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
-import { dirname } from "path";
+import { dirname, join } from "path";
+import { readTextFile } from "./Filesystem";
 
 export enum Environment {
   Development = "development",
@@ -9,11 +10,14 @@ export enum Environment {
 export interface Config {
   environment: Environment;
   fileRoot: string;
+  mongodbUri: string;
   port: number;
+  privateKey?: string;
   urlRoot: string;
 }
 
 const defaults = {
+  mongodbUri: "mongodb://localhost:27017/glance",
   port: "3001",
   urlRoot: "http://localhost",
 };
@@ -41,11 +45,28 @@ const loadEnvironmentVariable = (key: string, defaultValue = ""): string => {
   return value || defaultValue;
 };
 
+/**
+ * Loads the private key on-demand from file and caches it to return for
+ * subsequent runs.
+ */
+export const getPrivateKey = async (config: Config): Promise<string> => {
+  if (!config.privateKey) {
+    config.privateKey = await readTextFile(
+      join(config.fileRoot, "../jwtRS256.key")
+    );
+  }
+  return config.privateKey;
+};
+
 export const loadConfig = (): Config => {
   dotenv.config();
 
   const environment = getEnvironment(process.env.NODE_ENV);
   const fileRoot = dirname(__dirname);
+  const mongodbUri = loadEnvironmentVariable(
+    "MONGODB_URI",
+    defaults.mongodbUri
+  );
   const port = parseInt(loadEnvironmentVariable("PORT", defaults.port));
   const urlRootWithoutPort = loadEnvironmentVariable(
     "URL_ROOT",
@@ -56,6 +77,7 @@ export const loadConfig = (): Config => {
   const config: Config = {
     environment,
     fileRoot,
+    mongodbUri,
     port,
     urlRoot,
   };

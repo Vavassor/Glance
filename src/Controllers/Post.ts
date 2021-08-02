@@ -1,51 +1,15 @@
 import { RequestHandler } from "express";
-import { AccountPublicAdo } from "Types/Ado/AccountPublicAdo";
+import { findAccountTimelinePosts } from "Repositories/PostRepository";
+import { config } from "server";
 import { ErrorAdo } from "Types/Ado/ErrorAdo";
 import { PostAdo } from "Types/Ado/PostAdo";
 import { ParamsDictionary, ParsedQs } from "Types/Express";
-
-const placeholderAccount: AccountPublicAdo = {
-  id: "a",
-  username: "name",
-};
-
-const placeholderPosts: PostAdo[] = [
-  {
-    account: placeholderAccount,
-    content: "something",
-    creation_date: "2021-07-30T21:52:52Z",
-    id: "a",
-    title: "Chipmunk",
-  },
-  {
-    account: placeholderAccount,
-    content: "something",
-    creation_date: "2021-07-30T21:52:52Z",
-    id: "b",
-    title: "Groundhog",
-  },
-  {
-    account: placeholderAccount,
-    content: "something",
-    creation_date: "2021-07-30T21:52:52Z",
-    id: "c",
-    title: "Beaver",
-  },
-  {
-    account: placeholderAccount,
-    content: "something",
-    creation_date: "2021-07-30T21:52:52Z",
-    id: "d",
-    title: "Gopher",
-  },
-  {
-    account: placeholderAccount,
-    content: "something",
-    creation_date: "2021-07-30T21:52:52Z",
-    id: "e",
-    title: "Prairie dog",
-  },
-];
+import { getPostAdoFromPost } from "Utilities/Mapping/Ado";
+import {
+  getIdLimits,
+  getLinkEntityHeader,
+  getQueryInt,
+} from "Utilities/Pagination";
 
 interface SearchRecentQuery extends ParsedQs {
   limit?: string;
@@ -53,11 +17,29 @@ interface SearchRecentQuery extends ParsedQs {
   until_id?: string;
 }
 
+const DEFAULT_SEARCH_RESULT_COUNT = 100;
+
 export const getAccountTimelinePosts: RequestHandler<
   ParamsDictionary,
   PostAdo[] | ErrorAdo,
   any,
   SearchRecentQuery
 > = async (request, response, next) => {
-  response.json(placeholderPosts);
+  const limit = getQueryInt(request.query.limit, DEFAULT_SEARCH_RESULT_COUNT);
+  const posts = await findAccountTimelinePosts(
+    request.accountId,
+    request.query.since_id,
+    request.query.until_id,
+    limit
+  );
+
+  const idLimits = getIdLimits(posts);
+  if (idLimits) {
+    const { sinceId, untilId } = idLimits;
+    response.links(
+      getLinkEntityHeader(request.originalUrl, config.urlRoot, sinceId, untilId)
+    );
+  }
+
+  response.json(posts.map(getPostAdoFromPost));
 };

@@ -2,11 +2,12 @@ import express from "express";
 import i18next from "i18next";
 import FilesystemBackend from "i18next-fs-backend";
 import i18nextHttpMiddleware from "i18next-http-middleware";
+import mongoose from "mongoose";
 import { join, resolve } from "path";
 import { HttpStatus } from "Types/HttpStatus";
 import { Environment, loadConfig } from "Utilities/Config";
 import { logError } from "Utilities/Logging";
-import { getErrorAdoFromErrorSingle } from "Utilities/Mapping/ErrorAdo";
+import { getErrorAdoFromErrorSingle } from "Utilities/Mapping/Ado";
 import { router as routes } from "./Routes";
 
 process.on("uncaughtException", (error) => {
@@ -64,5 +65,15 @@ app.use((request, response, next) => {
     response.status(HttpStatus.NotAcceptable).end();
   }
 });
+
+mongoose
+  .connect(config.mongodbUri, {
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .catch((error) => {
+    logError("Failed to connect to MongoDB.", error);
+  });
 
 app.listen(config.port);
