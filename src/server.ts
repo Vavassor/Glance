@@ -2,8 +2,9 @@ import express from "express";
 import i18next from "i18next";
 import FilesystemBackend from "i18next-fs-backend";
 import i18nextHttpMiddleware from "i18next-http-middleware";
-import mongoose from "mongoose";
 import { join, resolve } from "path";
+import "reflect-metadata";
+import { createConnection } from "typeorm";
 import { HttpStatus } from "Types/HttpStatus";
 import { Environment, loadConfig } from "Utilities/Config";
 import { logError } from "Utilities/Logging";
@@ -66,14 +67,17 @@ app.use((request, response, next) => {
   }
 });
 
-mongoose
-  .connect(config.mongodbUri, {
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+createConnection({
+  database: "glance",
+  entities: [join(config.fileRoot, "/Entity/*.js")],
+  host: config.mysqlHost,
+  password: config.mysqlPassword,
+  port: config.mysqlPort,
+  synchronize: true,
+  type: "mysql",
+  username: config.mysqlUsername,
+})
+  .then((connection) => {
+    app.listen(config.port);
   })
-  .catch((error) => {
-    logError("Failed to connect to MongoDB.", error);
-  });
-
-app.listen(config.port);
+  .catch((error) => logError("Failed connecting to the database.", error));

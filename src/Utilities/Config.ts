@@ -10,14 +10,20 @@ export enum Environment {
 export interface Config {
   environment: Environment;
   fileRoot: string;
-  mongodbUri: string;
+  mysqlHost: string;
+  mysqlPassword: string;
+  mysqlPort: number;
+  mysqlUsername: string;
   port: number;
   privateKey?: string;
   urlRoot: string;
 }
 
 const defaults = {
-  mongodbUri: "mongodb://localhost:27017/glance",
+  mysqlHost: "localhost",
+  mysqlPassword: "admin",
+  mysqlPort: "3306",
+  mysqlUsername: "root",
   port: "3001",
   urlRoot: "http://localhost",
 };
@@ -63,9 +69,17 @@ export const loadConfig = (): Config => {
 
   const environment = getEnvironment(process.env.NODE_ENV);
   const fileRoot = dirname(__dirname);
-  const mongodbUri = loadEnvironmentVariable(
-    "MONGODB_URI",
-    defaults.mongodbUri
+  const mysqlHost = loadEnvironmentVariable("MYSQL_HOST", defaults.mysqlHost);
+  const mysqlPassword = loadEnvironmentVariable(
+    "MYSQL_PASSWORD",
+    defaults.mysqlPassword
+  );
+  const mysqlPort = parseInt(
+    loadEnvironmentVariable("MYSQL_PORT", defaults.mysqlPort)
+  );
+  const mysqlUsername = loadEnvironmentVariable(
+    "MYSQL_USERNAME",
+    defaults.mysqlUsername
   );
   const port = parseInt(loadEnvironmentVariable("PORT", defaults.port));
   const urlRootWithoutPort = loadEnvironmentVariable(
@@ -77,7 +91,10 @@ export const loadConfig = (): Config => {
   const config: Config = {
     environment,
     fileRoot,
-    mongodbUri,
+    mysqlHost,
+    mysqlPassword,
+    mysqlPort,
+    mysqlUsername,
     port,
     urlRoot,
   };

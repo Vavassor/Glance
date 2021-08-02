@@ -1,7 +1,7 @@
-import { PostModel } from "Models";
+import { Post } from "Entities/Post";
+import { getRepository } from "typeorm";
 import { getPostFromPostModel } from "Utilities/Mapping/Domain";
-import { getQuerySelector } from "Utilities/Mongodb";
-import { Types } from "mongoose";
+import { getQuerySelector } from "Utilities/Typeorm";
 
 export const findAccountTimelinePosts = async (
   accountId: string,
@@ -10,19 +10,15 @@ export const findAccountTimelinePosts = async (
   limit: number
 ) => {
   const idQuery = getQuerySelector(sinceId, untilId);
-  const conditions = idQuery ? { _id: idQuery } : {};
-  const posts = await PostModel.find(
-    {
-      account: Types.ObjectId(accountId),
-      ...conditions,
+  const conditions = idQuery ? { id: idQuery } : {};
+  const repository = getRepository(Post);
+  const posts = await repository.find({
+    order: {
+      creation_date: "DESC",
     },
-    undefined,
-    {
-      sort: "-creation_date",
-    }
-  )
-    .limit(limit)
-    .populate({ path: "account" })
-    .exec();
+    relations: ["account"],
+    take: limit,
+    where: { account: accountId, ...conditions },
+  });
   return posts.map(getPostFromPostModel);
 };
