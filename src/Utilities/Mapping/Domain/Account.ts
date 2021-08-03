@@ -1,12 +1,11 @@
-import { Document } from "mongoose";
+import type { Account as AccountModel } from "Models";
 import { AccountPublic } from "Types/Domain";
-import { AccountModel } from "Types/Models";
 
 export const getAccountPublicFromAccountModel = (
-  model: AccountModel & Document<any, any, AccountModel>
+  model: AccountModel
 ): AccountPublic => {
   const account: AccountPublic = {
-    id: model.id,
+    id: model.id.toString(),
     username: model.username,
   };
   return account;

@@ -1,7 +1,6 @@
-import { Post } from "Entities/Post";
-import { getRepository } from "typeorm";
+import { AccountModel, PostModel } from "Models";
 import { getPostFromPostModel } from "Utilities/Mapping/Domain";
-import { getQuerySelector } from "Utilities/Typeorm";
+import { getQuerySelector } from "Utilities/Sequelize";
 
 export const findAccountTimelinePosts = async (
   accountId: string,
@@ -11,14 +10,14 @@ export const findAccountTimelinePosts = async (
 ) => {
   const idQuery = getQuerySelector(sinceId, untilId);
   const conditions = idQuery ? { id: idQuery } : {};
-  const repository = getRepository(Post);
-  const posts = await repository.find({
-    order: {
-      creation_date: "DESC",
+  const posts = await PostModel.findAll({
+    include: AccountModel,
+    limit,
+    order: [["createdAt", "DESC"]],
+    where: {
+      Account: accountId,
+      ...conditions,
     },
-    relations: ["account"],
-    take: limit,
-    where: { account: accountId, ...conditions },
   });
   return posts.map(getPostFromPostModel);
 };

@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import { dirname, join } from "path";
 import { readTextFile } from "./Filesystem";
+import { parseBoolean } from "./String";
 
 export enum Environment {
   Development = "development",
@@ -16,6 +17,7 @@ export interface Config {
   mysqlUsername: string;
   port: number;
   privateKey?: string;
+  resetDatabase: boolean;
   urlRoot: string;
 }
 
@@ -25,6 +27,7 @@ const defaults = {
   mysqlPort: "3306",
   mysqlUsername: "root",
   port: "3001",
+  resetDatabase: false,
   urlRoot: "http://localhost",
 };
 
@@ -82,6 +85,9 @@ export const loadConfig = (): Config => {
     defaults.mysqlUsername
   );
   const port = parseInt(loadEnvironmentVariable("PORT", defaults.port));
+  const resetDatabase = parseBoolean(
+    loadEnvironmentVariable("RESET_DATABASE", defaults.resetDatabase.toString())
+  );
   const urlRootWithoutPort = loadEnvironmentVariable(
     "URL_ROOT",
     defaults.urlRoot
@@ -96,8 +102,11 @@ export const loadConfig = (): Config => {
     mysqlPort,
     mysqlUsername,
     port,
+    resetDatabase,
     urlRoot,
   };
 
   return config;
 };
+
+export const config = loadConfig();

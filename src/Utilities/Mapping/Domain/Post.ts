@@ -1,17 +1,13 @@
-import { Document } from "mongoose";
 import { Post } from "Types/Domain";
-import { PostModel } from "Types/Models";
+import { Post as PostModel } from "Models";
 import { getAccountPublicFromAccountModel } from "./Account";
 
-export const getPostFromPostModel = (
-  model: PostModel & Document<any, any, PostModel>
-): Post => {
-  const timestamp = model._id.getTimestamp();
+export const getPostFromPostModel = (model: PostModel): Post => {
   const post: Post = {
-    account: getAccountPublicFromAccountModel(model.account),
+    account: getAccountPublicFromAccountModel(model.account!),
     content: model.content,
-    creationDate: timestamp.toISOString(),
-    id: model.id,
+    creationDate: model.createdAt.toISOString(),
+    id: model.id.toString(),
     title: model.title,
   };
   return post;

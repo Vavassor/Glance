@@ -8,8 +8,7 @@ import { TokenGrantAdo } from "Types/Ado/TokenGrantAdo";
 import { ParamsDictionary, ParsedQs } from "Types/Express";
 import { HttpStatus } from "Types/HttpStatus";
 import { conditionalMiddleWare } from "Utilities/ConditionalMiddleware";
-import { Environment } from "Utilities/Config";
-import { config } from "../server";
+import { config, Environment } from "Utilities/Config";
 
 interface CorsOptions {
   headers?: string[];
