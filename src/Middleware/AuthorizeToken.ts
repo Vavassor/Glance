@@ -1,9 +1,8 @@
 import { RequestHandler, Response as ExpressResponse } from "express";
 import { TFunction } from "i18next";
-import { config } from "server";
 import { HttpStatus } from "Types/HttpStatus";
 import { escapeQuotes } from "Utilities/Ascii";
-import { getPrivateKey } from "Utilities/Config";
+import { config, getPrivateKey } from "Utilities/Config";
 import { getAuthorizationField } from "Utilities/HttpHeader";
 import { getEnglishT } from "Utilities/Internationalization";
 import { getErrorAdoFromMessage } from "Utilities/Mapping/Ado";
@@ -66,36 +65,36 @@ export const authorizeToken: RequestHandler = async (
 ) => {
   const englishT = getEnglishT();
 
-  // const authorization = request.header("Authorization");
-  // if (!authorization) {
-  //   return respondWithInvalidRequest(response, englishT, request.t);
-  // }
+  const authorization = request.header("Authorization");
+  if (!authorization) {
+    return respondWithInvalidRequest(response, englishT, request.t);
+  }
 
-  // const authorizationField = getAuthorizationField(authorization);
-  // if (!authorizationField) {
-  //   return respondWithInvalidRequest(response, englishT, request.t);
-  // }
-  // if (authorizationField.type !== "Bearer") {
-  //   return respondWithInvalidRequest(response, englishT, request.t);
-  // }
+  const authorizationField = getAuthorizationField(authorization);
+  if (!authorizationField) {
+    return respondWithInvalidRequest(response, englishT, request.t);
+  }
+  if (authorizationField.type !== "Bearer") {
+    return respondWithInvalidRequest(response, englishT, request.t);
+  }
 
-  // const { token } = authorizationField;
-  // const privateKey = await getPrivateKey(config);
+  const { token } = authorizationField;
+  const privateKey = await getPrivateKey(config);
 
-  // let jwtPayload: JwtPayload;
-  // try {
-  //   jwtPayload = await verifyAccessToken(token, privateKey);
-  // } catch (error) {
-  //   return respondWithInvalidToken(response, englishT, request.t);
-  // }
+  let jwtPayload: JwtPayload;
+  try {
+    jwtPayload = await verifyAccessToken(token, privateKey);
+  } catch (error) {
+    return respondWithInvalidToken(response, englishT, request.t);
+  }
 
-  // // @TODO Check that scopes are allowed.
+  // @TODO Check that scopes are allowed.
 
-  // const accountId = jwtPayload.sub;
+  const accountId = jwtPayload.sub;
 
   // @TODO Check that account exists.
 
-  request.accountId = "5f7295d69bbbe80e3ca48bf0";
+  request.accountId = accountId;
 
   next();
 };

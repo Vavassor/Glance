@@ -4,7 +4,7 @@ import { getAccountPublicFromAccountModel } from "./Account";
 
 export const getPostFromPostModel = (model: PostModel): Post => {
   const post: Post = {
-    account: getAccountPublicFromAccountModel(model.account!),
+    account: getAccountPublicFromAccountModel(model.Account!),
     content: model.content,
     creationDate: model.createdAt.toISOString(),
     id: model.id.toString(),

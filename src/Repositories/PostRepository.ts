@@ -15,7 +15,7 @@ export const findAccountTimelinePosts = async (
     limit,
     order: [["createdAt", "DESC"]],
     where: {
-      Account: accountId,
+      AccountId: accountId,
       ...conditions,
     },
   });

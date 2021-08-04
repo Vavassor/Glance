@@ -1,9 +1,9 @@
 import { RequestHandler } from "express";
 import { findAccountTimelinePosts } from "Repositories/PostRepository";
-import { config } from "server";
 import { ErrorAdo } from "Types/Ado/ErrorAdo";
 import { PostAdo } from "Types/Ado/PostAdo";
 import { ParamsDictionary, ParsedQs } from "Types/Express";
+import { config } from "Utilities/Config";
 import { getPostAdoFromPost } from "Utilities/Mapping/Ado";
 import {
   getIdLimits,

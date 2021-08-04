@@ -8,6 +8,7 @@ import { Account } from "./AccountModel";
 
 interface PostAttributes {
   Account?: Account;
+  AccountId?: string;
   content: string;
   title: string;
 }
@@ -19,6 +20,7 @@ export class Post
   implements PostAttributes
 {
   public Account?: Account;
+  public AccountId?: string;
   public content!: string;
   public id!: number;
   public name!: string;
