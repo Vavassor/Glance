@@ -1,5 +1,7 @@
 import dotenv from "dotenv";
-import { dirname } from "path";
+import { dirname, join } from "path";
+import { readTextFile } from "./Filesystem";
+import { parseBoolean } from "./String";
 
 export enum Environment {
   Development = "development",
@@ -9,12 +11,23 @@ export enum Environment {
 export interface Config {
   environment: Environment;
   fileRoot: string;
+  mysqlHost: string;
+  mysqlPassword: string;
+  mysqlPort: number;
+  mysqlUsername: string;
   port: number;
+  privateKey?: string;
+  resetDatabase: boolean;
   urlRoot: string;
 }
 
 const defaults = {
+  mysqlHost: "localhost",
+  mysqlPassword: "admin",
+  mysqlPort: "3306",
+  mysqlUsername: "root",
   port: "3001",
+  resetDatabase: false,
   urlRoot: "http://localhost",
 };
 
@@ -41,12 +54,40 @@ const loadEnvironmentVariable = (key: string, defaultValue = ""): string => {
   return value || defaultValue;
 };
 
+/**
+ * Loads the private key on-demand from file and caches it to return for
+ * subsequent runs.
+ */
+export const getPrivateKey = async (config: Config): Promise<string> => {
+  if (!config.privateKey) {
+    config.privateKey = await readTextFile(
+      join(config.fileRoot, "../jwtRS256.key")
+    );
+  }
+  return config.privateKey;
+};
+
 export const loadConfig = (): Config => {
   dotenv.config();
 
   const environment = getEnvironment(process.env.NODE_ENV);
   const fileRoot = dirname(__dirname);
+  const mysqlHost = loadEnvironmentVariable("MYSQL_HOST", defaults.mysqlHost);
+  const mysqlPassword = loadEnvironmentVariable(
+    "MYSQL_PASSWORD",
+    defaults.mysqlPassword
+  );
+  const mysqlPort = parseInt(
+    loadEnvironmentVariable("MYSQL_PORT", defaults.mysqlPort)
+  );
+  const mysqlUsername = loadEnvironmentVariable(
+    "MYSQL_USERNAME",
+    defaults.mysqlUsername
+  );
   const port = parseInt(loadEnvironmentVariable("PORT", defaults.port));
+  const resetDatabase = parseBoolean(
+    loadEnvironmentVariable("RESET_DATABASE", defaults.resetDatabase.toString())
+  );
   const urlRootWithoutPort = loadEnvironmentVariable(
     "URL_ROOT",
     defaults.urlRoot
@@ -56,9 +97,16 @@ export const loadConfig = (): Config => {
   const config: Config = {
     environment,
     fileRoot,
+    mysqlHost,
+    mysqlPassword,
+    mysqlPort,
+    mysqlUsername,
     port,
+    resetDatabase,
     urlRoot,
   };
 
   return config;
 };
+
+export const config = loadConfig();

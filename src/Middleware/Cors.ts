@@ -2,14 +2,13 @@
  * Cross-Origin Resource Sharing (CORS) is a specification that enables a web app
  * running at one origin to access selected resources from a different origin.
  */
+import { RequestHandler, Response as ExpressResponse } from "express";
+import { IncomingHttpHeaders } from "http";
 import { TokenGrantAdo } from "Types/Ado/TokenGrantAdo";
 import { ParamsDictionary, ParsedQs } from "Types/Express";
 import { HttpStatus } from "Types/HttpStatus";
 import { conditionalMiddleWare } from "Utilities/ConditionalMiddleware";
-import { Environment } from "Utilities/Config";
-import { RequestHandler, Response as ExpressResponse } from "express";
-import { IncomingHttpHeaders } from "http";
-import { config } from "../server";
+import { config, Environment } from "Utilities/Config";
 
 interface CorsOptions {
   headers?: string[];

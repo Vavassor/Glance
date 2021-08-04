@@ -2,18 +2,18 @@ import express from "express";
 import i18next from "i18next";
 import FilesystemBackend from "i18next-fs-backend";
 import i18nextHttpMiddleware from "i18next-http-middleware";
+import { AccountModel, PostModel, sequelize } from "Models";
 import { join, resolve } from "path";
 import { HttpStatus } from "Types/HttpStatus";
-import { Environment, loadConfig } from "Utilities/Config";
+import { config, Environment } from "Utilities/Config";
 import { logError } from "Utilities/Logging";
-import { getErrorAdoFromErrorSingle } from "Utilities/Mapping/ErrorAdo";
+import { getErrorAdoFromErrorSingle } from "Utilities/Mapping/Ado";
+import { seedDatabase } from "Utilities/Seeding/SeedDatabase";
 import { router as routes } from "./Routes";
 
 process.on("uncaughtException", (error) => {
   logError("An uncaught exception occurred.", error);
 });
-
-export const config = loadConfig();
 
 i18next
   .use(FilesystemBackend)
@@ -65,4 +65,14 @@ app.use((request, response, next) => {
   }
 });
 
-app.listen(config.port);
+(async () => {
+  try {
+    await sequelize.sync({ force: config.resetDatabase });
+    if (config.resetDatabase) {
+      await seedDatabase();
+    }
+    app.listen(config.port);
+  } catch (error) {
+    logError("Failed to sync the database.", error);
+  }
+})();
