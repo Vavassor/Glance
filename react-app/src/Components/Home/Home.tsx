@@ -27,6 +27,7 @@ export const Home: React.FC = () => {
         setPosts(posts);
         setPostLoadStatus(AsyncStatus.Success);
       } catch (error) {
+        console.error("What", error)
         setPostLoadStatus(AsyncStatus.Failure);
       }
     };
@@ -42,7 +43,8 @@ export const Home: React.FC = () => {
       </h2>
       <Feed
         articleProps={{
-          className: "dark:text-white focus:outline-none focus:ring-2 focus:ring-focus",
+          className:
+            "dark:text-white focus:outline-none focus:ring-2 focus:ring-focus",
         }}
         articles={posts}
         feedProps={{ className: "gap-3" }}

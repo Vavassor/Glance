@@ -8,6 +8,13 @@ export function add<T>(array: T[], value: T, index: number): T[] {
   return array.slice(0, index).concat(value, array.slice(index));
 }
 
+export function every<T>(
+  array: T[],
+  predicate: (value: T) => boolean
+): boolean {
+  return !array.some((value) => !predicate(value));
+}
+
 export function findById<T extends HasId>(array: T[], id: Id): T | undefined {
   return array.find((value) => value.id === id);
 }

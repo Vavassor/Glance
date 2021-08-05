@@ -1,50 +1,19 @@
-import { AccountPublic, Post } from "Types/Domain";
-
-const placeholderAccount: AccountPublic = {
-  id: "a",
-  username: "name",
-};
-
-const placeholderPosts: Post[] = [
-  {
-    account: placeholderAccount,
-    content: "something",
-    creationDate: new Date("2021-07-30T21:52:52Z"),
-    id: "a",
-    title: "Chipmunk",
-  },
-  {
-    account: placeholderAccount,
-    content: "something",
-    creationDate: new Date("2021-07-30T21:52:52Z"),
-    id: "b",
-    title: "Groundhog",
-  },
-  {
-    account: placeholderAccount,
-    content: "something",
-    creationDate: new Date("2021-07-30T21:52:52Z"),
-    id: "c",
-    title: "Beaver",
-  },
-  {
-    account: placeholderAccount,
-    content: "something",
-    creationDate: new Date("2021-07-30T21:52:52Z"),
-    id: "d",
-    title: "Gopher",
-  },
-  {
-    account: placeholderAccount,
-    content: "something",
-    creationDate: new Date("2021-07-30T21:52:52Z"),
-    id: "e",
-    title: "Prairie dog",
-  },
-];
+import { Post } from "Types/Domain";
+import { getPostFromPostAdo } from "Utilities/Mapping/DomainMapping";
+import { isPostAdoArray } from "Utilities/Typeguards";
+import { callApi } from "./ApiUtilities";
 
 export const getAccountTimelinePosts = async (
   accessToken: string
 ): Promise<Post[]> => {
-  return placeholderPosts;
+  const postAdos = await callApi("post/account_timeline", {
+    bearerToken: accessToken,
+    method: "GET",
+  });
+
+  if (!isPostAdoArray(postAdos)) {
+    throw new Error("The response body was not the expected type 'PostAdo[]'.");
+  }
+
+  return postAdos.map(getPostFromPostAdo);
 };
