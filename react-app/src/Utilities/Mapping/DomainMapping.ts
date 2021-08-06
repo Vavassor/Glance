@@ -1,6 +1,16 @@
-import { PostAdo } from "Types/Ado";
+import { PostAdo, TokenAdo } from "Types/Ado";
 import { AccountAdo, AccountPublicAdo } from "Types/Ado/AccountAdo";
-import { Account, AccountPublic, Post } from "Types/Domain";
+import { AccessToken, Account, AccountPublic, Post } from "Types/Domain";
+import { getDateInSeconds } from "Utilities/Date";
+
+export const getAccessTokenFromTokenAdo = (tokenAdo: TokenAdo): AccessToken => {
+  const { access_token, expires_in, refresh_token } = tokenAdo;
+  return {
+    accessToken: access_token,
+    expirationDate: getDateInSeconds(new Date(), expires_in),
+    refreshToken: refresh_token,
+  };
+};
 
 export const getAccountFromAccountAdo = (accountAdo: AccountAdo): Account => {
   const { email, id, username } = accountAdo;

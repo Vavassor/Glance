@@ -45,9 +45,19 @@ export const formatTimeAgo = (
   return format.format(Math.round(unitsAgo), division.unit);
 };
 
+export const getDateInSeconds = (date: Date, seconds: number) => {
+  return new Date(date.getTime() + 1000 * seconds);
+};
+
 export const getTime = (date: Date, locale: string) => {
   const relativeTimeFormat = new Intl.RelativeTimeFormat(locale, {
     style: "long",
   });
   return formatTimeAgo(date, new Date(), relativeTimeFormat);
+};
+
+export const isAfterDate = (startDate?: Date | null, endDate?: Date | null) => {
+  return !!startDate && !!endDate
+    ? startDate.getTime() - endDate.getTime() > 0
+    : false;
 };

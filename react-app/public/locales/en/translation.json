@@ -2,6 +2,12 @@
   "app": {
     "title": "Glance"
   },
+  "login_form": {
+    "begin_password_reset_link": "Forgot your password?",
+    "login_button_label": "Log In",
+    "password_field_label": "Password",
+    "username_field_label": "Username"
+  },
   "main_nav": {
     "about_link_label": "About",
     "home_link_label": "Home"

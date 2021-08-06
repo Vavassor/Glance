@@ -1,9 +1,17 @@
-import { About } from "Components/About";
-import { Home } from "Components/Home";
+import { PrivateRoute } from "Components/PrivateRoute";
 import { useLocaleSetup } from "Hooks/useLocaleSetup";
 import { useThemeModeSetup } from "Hooks/useThemeModeSetup";
+import { About } from "Pages/About";
+import { Home } from "Pages/Home";
+import { Login } from "Pages/Login";
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
+import { RoutePath } from "Types/RoutePath";
 
 function App() {
   useLocaleSetup();
@@ -12,8 +20,10 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route component={Home} exact path="/" />
-        <Route component={About} exact path="/about" />
+        <Route exact path="/" render={() => <Redirect to={RoutePath.Home} />} />
+        <Route component={About} exact path={RoutePath.About} />
+        <PrivateRoute component={Home} exact path={RoutePath.Home} />
+        <Route component={Login} exact path={RoutePath.Login} />
       </Switch>
     </Router>
   );
