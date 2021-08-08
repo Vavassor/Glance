@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { Button } from "Components/Button";
 import { FieldError } from "Components/FieldError";
 import { TextField } from "Components/TextField";
@@ -12,10 +13,14 @@ export interface LoginFormData {
 }
 
 export interface LoginFormProps {
+  className?: string;
   onSubmit: (data: LoginFormData) => void;
 }
 
-export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
+export const LoginForm: React.FC<LoginFormProps> = ({
+  className,
+  onSubmit,
+}) => {
   const { t } = useTranslation();
   const {
     register,
@@ -29,7 +34,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   const usernameErrorId = createId(usernameFieldId, "error");
 
   return (
-    <form className="flex flex-col gap-3" noValidate onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className={clsx("flex flex-col gap-3", className)}
+      noValidate
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <div>
         <TextField
           errorId={usernameErrorId}
@@ -44,7 +53,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
         <TextField
           errorId={passwordErrorId}
           id={passwordFieldId}
-          inputProps={{ ...register("password") }}
+          inputProps={{ type: "password", ...register("password") }}
           label={t("login_form.password_field_label")}
           name="password"
         />

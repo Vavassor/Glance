@@ -58,7 +58,7 @@ export const TextField = forwardRef<HTMLDivElement, TextFieldProps>(
         <input
           aria-describedby={joinIds(errorId, helpId)}
           aria-invalid={hasError}
-          className="block outline-none px-2 pb-1 w-full"
+          className="block outline-none px-2 pb-1 rounded w-full"
           disabled={isDisabled}
           id={inputId}
           name={name}
