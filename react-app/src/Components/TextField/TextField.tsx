@@ -46,6 +46,7 @@ export const TextField = forwardRef<HTMLDivElement, TextFieldProps>(
       <div
         className={clsx(
           "border border-gray-500 flex-col focus-within:border-focus focus-within:ring-2 focus-within:ring-focus rounded",
+          !!hasError && "border-red-700",
           className
         )}
         id={id}
