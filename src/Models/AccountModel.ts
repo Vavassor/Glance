@@ -7,17 +7,19 @@ import {
   HasManyGetAssociationsMixin,
   HasManyHasAssociationMixin,
   Model,
+  Optional,
   Sequelize,
 } from "sequelize";
 import { Post } from "./PostModel";
 
 interface AccountAttributes {
   email: string;
+  id: number;
   password: string;
   username: string;
 }
 
-interface AccountCreationAttributes extends AccountAttributes {}
+interface AccountCreationAttributes extends Optional<AccountAttributes, "id"> {}
 
 export class Account
   extends Model<AccountAttributes, AccountCreationAttributes>
@@ -51,6 +53,11 @@ export const createAccountModel = (sequelize: Sequelize) => {
       email: {
         allowNull: false,
         type: DataTypes.STRING,
+      },
+      id: {
+        type: DataTypes.INTEGER.UNSIGNED,
+        autoIncrement: true,
+        primaryKey: true,
       },
       password: {
         allowNull: false,

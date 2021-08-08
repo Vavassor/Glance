@@ -2,6 +2,7 @@ import {
   BelongsToSetAssociationMixin,
   DataTypes,
   Model,
+  Optional,
   Sequelize,
 } from "sequelize";
 import { Account } from "./AccountModel";
@@ -10,10 +11,11 @@ interface PostAttributes {
   Account?: Account;
   AccountId?: string;
   content: string;
+  id: number;
   title: string;
 }
 
-interface PostCreationAttributes extends PostAttributes {}
+interface PostCreationAttributes extends Optional<PostAttributes, "id"> {}
 
 export class Post
   extends Model<PostAttributes, PostCreationAttributes>
@@ -39,6 +41,11 @@ export const createPostModel = (sequelize: Sequelize) => {
       content: {
         allowNull: false,
         type: DataTypes.STRING,
+      },
+      id: {
+        type: DataTypes.INTEGER.UNSIGNED,
+        autoIncrement: true,
+        primaryKey: true,
       },
       title: {
         allowNull: false,

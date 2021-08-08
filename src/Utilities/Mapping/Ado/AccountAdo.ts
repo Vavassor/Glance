@@ -1,12 +1,12 @@
-import { AccountPublicAdo } from "Types/Ado/AccountPublicAdo";
-import { AccountPublic } from "Types/Domain";
+import { AccountAdo } from "Types/Ado";
+import { Account } from "Types/Domain";
 
-export const getAccountPublicAdoFromAccountPublic = (
-  account: AccountPublic
-): AccountPublicAdo => {
-  const { id, username } = account;
-  return {
+export const getAccountAdoFromAccount = (account: Account) => {
+  const { email, id, username } = account;
+  const accountAdo: AccountAdo = {
+    email,
     id,
     username,
   };
+  return accountAdo;
 };
