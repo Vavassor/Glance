@@ -1,6 +1,10 @@
 import { RequestHandler } from "express";
 import { ValidationError, validationResult } from "express-validator";
-import { getErrorAdoFromValidationErrorArray } from "Utilities/Mapping/Ado";
+import { getEnglishT } from "Utilities/Internationalization";
+import {
+  getErrorAdoFromValidationErrorArray,
+  getOAuthErrorAdoFromValidationErrorArray,
+} from "Utilities/Mapping/Ado";
 
 const flattenValidationErrors = (errors: ValidationError[]) => {
   let flattenedErrors: ValidationError[] = [];
@@ -13,6 +17,27 @@ const flattenValidationErrors = (errors: ValidationError[]) => {
     }
   }
   return flattenedErrors;
+};
+
+export const handleOAuthValidationError: RequestHandler = (
+  request,
+  response,
+  next
+) => {
+  const errors = validationResult(request);
+  if (!errors.isEmpty()) {
+    response
+      .status(400)
+      .json(
+        getOAuthErrorAdoFromValidationErrorArray(
+          flattenValidationErrors(errors.array()),
+          getEnglishT(),
+          request.t
+        )
+      );
+    return;
+  }
+  next();
 };
 
 export const handleValidationError: RequestHandler = (

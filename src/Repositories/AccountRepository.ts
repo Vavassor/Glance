@@ -24,6 +24,14 @@ export const findAccountById = async (id: string) => {
   return getAccountFromAccountModel(accountModel);
 };
 
+export const findAccountByUsername = async (username: string) => {
+  const accountModel = await AccountModel.findOne({ where: { username } });
+  if (!accountModel) {
+    return null;
+  }
+  return getAccountFromAccountModel(accountModel);
+};
+
 export const updatePasswordForAccount = async (
   password: string,
   accountId: string
