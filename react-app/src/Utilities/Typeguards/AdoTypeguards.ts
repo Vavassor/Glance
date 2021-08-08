@@ -1,6 +1,12 @@
-import { AccountPublicAdo, ErrorAdo, ErrorSingle, PostAdo } from "Types/Ado";
+import {
+  AccountPublicAdo,
+  ErrorAdo,
+  ErrorSingle,
+  PostAdo,
+  TokenAdo,
+} from "Types/Ado";
 import { every } from "Utilities/Array";
-import { isString, isStringOrUndefined } from "./BasicTypeguards";
+import { isNumber, isString, isStringOrUndefined } from "./BasicTypeguards";
 
 export const isAccountPublicAdo = (value: any): value is AccountPublicAdo => {
   return (
@@ -37,4 +43,15 @@ export const isPostAdo = (value: any): value is PostAdo => {
 
 export const isPostAdoArray = (value: any): value is PostAdo[] => {
   return Array.isArray(value) && every(value, isPostAdo);
+};
+
+export const isTokenAdo = (value: any): value is TokenAdo => {
+  return (
+    typeof value === "object" &&
+    isString(value.access_token) &&
+    isNumber(value.expires_in) &&
+    isStringOrUndefined(value.refresh_token) &&
+    isStringOrUndefined(value.scope) &&
+    isString(value.token_type)
+  );
 };

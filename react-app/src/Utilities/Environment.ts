@@ -1,6 +1,7 @@
 export interface Environment {
   apiRoot: string;
   nodeEnv: "development" | "production" | "test";
+  oauthClientId: string;
 }
 
 const defaults = {
@@ -23,10 +24,12 @@ export const getEnvironment = () => {
     "REACT_APP_API_ROOT",
     defaults.apiRoot
   );
+  const oauthClientId = loadEnvironmentVariable("REACT_APP_OAUTH_CLIENT_ID");
 
   const environment: Environment = {
     apiRoot,
     nodeEnv: process.env.NODE_ENV,
+    oauthClientId,
   };
 
   return environment;
