@@ -1,4 +1,7 @@
 {
+  "account": {
+    "id_not_found_error": "No account was found with the given ID."
+  },
   "app": {
     "title": "Glance"
   },

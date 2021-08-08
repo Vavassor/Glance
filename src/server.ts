@@ -2,7 +2,7 @@ import express from "express";
 import i18next from "i18next";
 import FilesystemBackend from "i18next-fs-backend";
 import i18nextHttpMiddleware from "i18next-http-middleware";
-import { AccountModel, PostModel, sequelize } from "Models";
+import { sequelize } from "Models";
 import { join, resolve } from "path";
 import { HttpStatus } from "Types/HttpStatus";
 import { config, Environment } from "Utilities/Config";
