@@ -93,8 +93,8 @@ export const createAccessToken = async (
   jwtid: string,
   scopes?: string[]
 ) => {
-  const { id, ...accountPayload } = account;
-  const payload = { ...accountPayload, scope: scopes?.join(" ") };
+  const { id } = account;
+  const payload = { scope: scopes?.join(" ") };
   const jwt = await signJwt(payload, privateKey, {
     audience: apiUrl,
     expiresIn,

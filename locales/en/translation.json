@@ -24,5 +24,13 @@
     "unauthorized_client_error_description": "The authenticated client is not authorized to use this authorization grant type.",
     "unsupported_authentication_method_error_description": "The authentication method is unsupported. If using the \"Authorization\" request header field, please check the \"WWW-Authenticate\" response header field for supported methods.",
     "unsupported_grant_type_error_description": "The authorization grant type is not supported by the authorization server."
+  },
+  "validation": {
+    "invalid_parameter_error": "Parameter \"{{parameter}}\" in an unknown location is invalid.",
+    "invalid_parameter_error_body": "Parameter \"{{parameter}}\" in the request body is invalid.",
+    "invalid_parameter_error_cookies": "Parameter \"{{parameter}}\" in cookies is invalid.",
+    "invalid_parameter_error_headers": "Parameter \"{{parameter}}\" in the request header is invalid.",
+    "invalid_parameter_error_params": "Parameter \"{{parameter}}\" in the path is invalid.",
+    "invalid_parameter_error_query": "Parameter \"{{parameter}}\" in the query string is invalid."
   }
 }
