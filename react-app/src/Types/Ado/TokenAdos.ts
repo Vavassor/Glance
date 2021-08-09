@@ -6,6 +6,14 @@ export interface TokenAdo {
   token_type: string;
 }
 
+export interface TokenGrantPasswordAdo {
+  client_id: string;
+  grant_type: "password";
+  password: string;
+  scope?: string;
+  username: string;
+}
+
 export interface TokenGrantRefreshTokenAdo {
   client_id: string;
   grant_type: "refresh_token";

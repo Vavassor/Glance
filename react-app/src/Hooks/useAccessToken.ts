@@ -22,7 +22,7 @@ export const useAccessToken = () => {
 
     const { accessToken } = activeAccount;
 
-    if (isAfterDate(new Date(), accessToken.expirationDate)) {
+    if (isAfterDate(new Date(), new Date(accessToken.expirationDate))) {
       const storedAccount = loadAccount(activeAccount.id);
       if (!storedAccount) {
         throw new Error(

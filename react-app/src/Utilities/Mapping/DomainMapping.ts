@@ -7,7 +7,7 @@ export const getAccessTokenFromTokenAdo = (tokenAdo: TokenAdo): AccessToken => {
   const { access_token, expires_in, refresh_token } = tokenAdo;
   return {
     accessToken: access_token,
-    expirationDate: getDateInSeconds(new Date(), expires_in),
+    expirationDate: getDateInSeconds(new Date(), expires_in).toISOString(),
     refreshToken: refresh_token,
   };
 };
