@@ -1,5 +1,9 @@
 export interface AccessToken {
   accessToken: string;
-  expirationDate: Date;
+  expirationDate: string;
   refreshToken?: string;
+}
+
+export interface AccessTokenPayload {
+  sub: string;
 }

@@ -33,7 +33,7 @@ export const createStoredAccessToken = (
 
   return {
     access_token: accessToken,
-    expiration_date: expirationDate.toISOString(),
+    expiration_date: expirationDate,
   };
 };
 

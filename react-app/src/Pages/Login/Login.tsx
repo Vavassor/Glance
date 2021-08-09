@@ -1,13 +1,33 @@
 import { Link } from "Components/Link";
 import { LoginForm, LoginFormData } from "Components/LoginForm";
+import { useAppDispatch } from "Hooks/ReduxHooks";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
+import { logIn } from "Slices/AuthSlice";
 import { RoutePath } from "Types/RoutePath";
+import { exchangePassword } from "Utilities/Api";
+import { logError } from "Utilities/Logging";
+import { getAccessTokenPayload } from "Utilities/TokenUtilities";
 
 export const Login: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const history = useHistory();
   const { t } = useTranslation();
 
-  const handleSubmit = (data: LoginFormData) => {};
+  const handleSubmit = async (data: LoginFormData) => {
+    const accessToken = await exchangePassword(data.username, data.password);
+    const accessTokenPayload = getAccessTokenPayload(accessToken.accessToken);
+    const accountId = accessTokenPayload?.sub;
+    if (!accountId) {
+      logError(
+        "Failed to log in. The access token did not contain an account ID in the sub claim."
+      );
+      return;
+    }
+    dispatch(logIn({ accessToken, id: accountId }));
+    history.push(RoutePath.Home);
+  };
 
   return (
     <div className="m-auto max-w-sm px-3">
