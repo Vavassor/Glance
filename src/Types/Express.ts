@@ -1,3 +1,11 @@
+export interface AccountLocals {
+  accountId: string;
+}
+
+export interface ClientLocals {
+  clientId: string;
+}
+
 export interface ParamsDictionary {
   [key: string]: string;
 }

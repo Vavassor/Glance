@@ -17,7 +17,7 @@ import {
   TokenGrantRefreshTokenAdo,
 } from "Types/Ado";
 import { Account, Token } from "Types/Domain";
-import { ParamsDictionary, ParsedQs } from "Types/Express";
+import { AccountLocals, ClientLocals, ParamsDictionary, ParsedQs } from "Types/Express";
 import { HttpStatus } from "Types/HttpStatus";
 import { Scope } from "Types/Scope";
 import { config, getPrivateKey } from "Utilities/Config";
@@ -114,7 +114,8 @@ export const grantToken: RequestHandler<
   ParamsDictionary,
   TokenAdo | OAuthErrorAdo,
   TokenGrantAdo,
-  ParsedQs
+  ParsedQs,
+  ClientLocals
 > = async (request, response, next) => {
   response.header("Cache-Control", "no-store");
   response.header("Pragma", "no-cache");
@@ -124,7 +125,7 @@ export const grantToken: RequestHandler<
       await exchangePassword(
         request.body,
         request.t,
-        request.clientId!,
+        response.locals.clientId,
         response
       );
       break;

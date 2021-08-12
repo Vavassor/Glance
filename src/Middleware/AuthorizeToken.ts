@@ -94,7 +94,7 @@ export const authorizeToken: RequestHandler = async (
 
   // @TODO Check that account exists.
 
-  request.accountId = accountId;
+  response.locals.accountId = accountId;
 
   next();
 };

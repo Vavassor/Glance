@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import { findAccountTimelinePosts } from "Repositories/PostRepository";
 import { ErrorAdo } from "Types/Ado/ErrorAdo";
 import { PostAdo } from "Types/Ado/PostAdo";
-import { ParamsDictionary, ParsedQs } from "Types/Express";
+import { AccountLocals, ParamsDictionary, ParsedQs } from "Types/Express";
 import { config } from "Utilities/Config";
 import { getPostAdoFromPost } from "Utilities/Mapping/Ado";
 import {
@@ -23,11 +23,12 @@ export const getAccountTimelinePosts: RequestHandler<
   ParamsDictionary,
   PostAdo[] | ErrorAdo,
   any,
-  SearchRecentQuery
+  SearchRecentQuery,
+  AccountLocals
 > = async (request, response, next) => {
   const limit = getQueryInt(request.query.limit, DEFAULT_SEARCH_RESULT_COUNT);
   const posts = await findAccountTimelinePosts(
-    request.accountId,
+    response.locals.accountId,
     request.query.since_id,
     request.query.until_id,
     limit
