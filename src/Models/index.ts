@@ -5,14 +5,16 @@ import { App, createAppModel } from "./AppModel";
 import { createPostModel, Post } from "./PostModel";
 import { createRefreshTokenModel, RefreshToken } from "./RefreshTokenModel";
 
-export const sequelize = new Sequelize({
-  database: "glance",
-  dialect: "mysql",
-  host: config.mysqlHost,
-  password: config.mysqlPassword,
-  port: config.mysqlPort,
-  username: config.mysqlUsername,
-});
+export const sequelize = !!config.mysqlConnectionUri
+  ? new Sequelize(config.mysqlConnectionUri)
+  : new Sequelize({
+      database: "glance",
+      dialect: "mysql",
+      host: config.mysqlHost,
+      password: config.mysqlPassword,
+      port: config.mysqlPort,
+      username: config.mysqlUsername,
+    });
 
 export const AccountModel = createAccountModel(sequelize);
 export const AppModel = createAppModel(sequelize);
