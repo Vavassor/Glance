@@ -11,7 +11,7 @@ export enum Environment {
 export interface Config {
   environment: Environment;
   fileRoot: string;
-  mysqlConnectionUrl?: string;
+  mysqlConnectionUri?: string;
   mysqlHost: string;
   mysqlPassword: string;
   mysqlPort: number;
@@ -33,7 +33,11 @@ const defaults = {
 };
 
 const findFirstEnvironmentVariable = (keys: string[]): string | undefined => {
-  return keys.find((key) => !!process.env[key]);
+  const foundKey = keys.find((key) => !!process.env[key]);
+  if (foundKey) {
+    return process.env[foundKey]
+  }
+  return undefined
 };
 
 const isEnvironment = (value: any): value is Environment => {
@@ -77,7 +81,7 @@ export const loadConfig = (): Config => {
 
   const environment = getEnvironment(process.env.NODE_ENV);
   const fileRoot = dirname(__dirname);
-  const mysqlConnectionUrl = findFirstEnvironmentVariable(["JAWSDB_URL"]);
+  const mysqlConnectionUri = findFirstEnvironmentVariable(["JAWSDB_URL"]);
   const mysqlHost = loadEnvironmentVariable("MYSQL_HOST", defaults.mysqlHost);
   const mysqlPassword = loadEnvironmentVariable(
     "MYSQL_PASSWORD",
@@ -103,7 +107,7 @@ export const loadConfig = (): Config => {
   const config: Config = {
     environment,
     fileRoot,
-    mysqlConnectionUrl,
+    mysqlConnectionUri,
     mysqlHost,
     mysqlPassword,
     mysqlPort,
