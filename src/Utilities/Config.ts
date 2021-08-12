@@ -69,9 +69,11 @@ const loadEnvironmentVariable = (key: string, defaultValue = ""): string => {
  */
 export const getPrivateKey = async (config: Config): Promise<string> => {
   if (!config.privateKey) {
-    config.privateKey = await readTextFile(
-      join(config.fileRoot, "../jwtRS256.key")
-    );
+    const privateKey = process.env.JWT_KEY;
+    if (!privateKey) {
+      throw new Error("Environment variable JWT_KEY was not set.")
+    }
+    config.privateKey = privateKey;
   }
   return config.privateKey;
 };
