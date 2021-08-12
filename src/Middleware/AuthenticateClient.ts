@@ -6,7 +6,7 @@ import {
   TokenAdo,
   TokenGrantAdo,
 } from "Types/Ado";
-import { ParamsDictionary, ParsedQs } from "Types/Express";
+import { ClientLocals, ParamsDictionary, ParsedQs } from "Types/Express";
 import { HttpStatus } from "Types/HttpStatus";
 import { getAuthorizationField } from "Utilities/HttpHeader";
 import { getEnglishT } from "Utilities/Internationalization";
@@ -17,7 +17,8 @@ export const authenticateClient: RequestHandler<
   ParamsDictionary,
   TokenAdo | OAuthErrorAdo,
   TokenGrantAdo,
-  ParsedQs
+  ParsedQs,
+  ClientLocals
 > = async (request, response, next) => {
   let clientId = undefined;
   let clientSecret = undefined;
@@ -84,7 +85,7 @@ export const authenticateClient: RequestHandler<
   // particular, if a third-party client attempts to use the resource owner
   // password grant type.
 
-  request.clientId = clientId;
+  response.locals.clientId = clientId!;
 
   next();
 };

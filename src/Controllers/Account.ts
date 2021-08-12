@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import * as AccountRepository from "Repositories/AccountRepository";
 import { AccountAdo, AccountSpecAdo, ErrorAdo, PasswordUpdateAdo } from "Types/Ado";
-import { ParamsDictionary, ParsedQs } from "Types/Express";
+import { AccountLocals, ParamsDictionary, ParsedQs } from "Types/Express";
 import { HttpStatus } from "Types/HttpStatus";
 import {
   getAccountAdoFromAccount,
@@ -52,9 +52,10 @@ export const updatePassword: RequestHandler<
   ParamsDictionary,
   ErrorAdo,
   PasswordUpdateAdo,
-  ParsedQs
+  ParsedQs,
+  AccountLocals
 > = async (request, response, next) => {
-  const { accountId } = request;
+  const { accountId } = response.locals;
   const { password } = request.body;
   const hashedPassword = await hash(password);
   await AccountRepository.updatePasswordForAccount(hashedPassword, accountId);
