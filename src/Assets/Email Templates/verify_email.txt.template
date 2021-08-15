@@ -1,0 +1,15 @@
+Verify your email address.
+
+There's one step you need to complete before registering your {{App_Name}} account. Please confirm this is the right email address to use for your new account.
+
+Please enter this verification code to get started on {{App_Name}}:
+{{Verification_Code}}
+
+Verification codes expire after two hours.
+
+Thanks,
+{{Sender_Name}}
+
+Sender and address
+{{Sender_Name}}
+{{Sender_Address}}, {{Sender_City}}, {{Sender_State}} {{Sender_Zip}}

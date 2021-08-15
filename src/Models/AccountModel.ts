@@ -53,6 +53,7 @@ export const createAccountModel = (sequelize: Sequelize) => {
       email: {
         allowNull: false,
         type: DataTypes.STRING,
+        unique: true,
       },
       id: {
         type: DataTypes.INTEGER.UNSIGNED,
@@ -66,6 +67,7 @@ export const createAccountModel = (sequelize: Sequelize) => {
       username: {
         allowNull: false,
         type: DataTypes.STRING,
+        unique: true,
       },
     },
     { sequelize }

@@ -1,4 +1,5 @@
 export * from "./AccountAdo";
+export * from "./AccountRegistrationAdo";
 export * from "./AppAdoMapping";
 export * from "./ErrorAdo";
 export * from "./OAuthErrorAdo";

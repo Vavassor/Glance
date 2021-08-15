@@ -6,6 +6,7 @@ import { sequelize } from "Models";
 import { join, resolve } from "path";
 import { HttpStatus } from "Types/HttpStatus";
 import { config, Environment } from "Utilities/Config";
+import { configureEmail } from "Utilities/Email";
 import { logError } from "Utilities/Logging";
 import { getErrorAdoFromErrorSingle } from "Utilities/Mapping/Ado";
 import { seedDatabase } from "Utilities/Seeding/SeedDatabase";
@@ -71,6 +72,7 @@ app.use((request, response, next) => {
     if (config.resetDatabase) {
       await seedDatabase();
     }
+    configureEmail();
     app.listen(config.port);
   } catch (error) {
     logError("Failed to sync the database.", error);

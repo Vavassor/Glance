@@ -1,4 +1,6 @@
 export * from "./Account";
+export * from "./AccountRegistration";
+export * from "./AccountRegistrationSpec";
 export * from "./AccountSpec";
 export * from "./App";
 export * from "./AppSpec";

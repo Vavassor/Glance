@@ -5,6 +5,9 @@
   "app": {
     "title": "Glance"
   },
+  "verification_email": {
+    "subject": "{{email_verification_code}} is your $t(app.title) verification code."
+  },
   "page_not_found": {
     "api_error_details": "We could not find the page \"{{path}}\".",
     "api_error_message": "Page not found",

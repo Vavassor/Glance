@@ -1,5 +1,7 @@
 export * from "./AccountAdo";
 export * from "./AccountPublicAdo";
+export * from "./AccountRegistrationAdo";
+export * from "./AccountRegistrationSpecAdo";
 export * from "./AccountSpecAdo";
 export * from "./AppAdo";
 export * from "./AppSpecAdo";
