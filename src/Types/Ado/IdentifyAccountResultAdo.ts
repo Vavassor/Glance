@@ -1,8 +1,5 @@
+import { RecoveryMethodType } from "Types/RecoveryMethodType";
 import { IdAdo } from "./IdAdo";
-
-export enum RecoveryMethodType {
-  Email = "Email",
-}
 
 interface RecoveryMethodEmail {
   email: string;

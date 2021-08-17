@@ -1,7 +1,6 @@
 import { defaultLocale, SENDER_EMAIL } from "Constants";
 import { RequestHandler } from "express";
 import { TFunction } from "i18next";
-import { join } from "path";
 import * as AccountRegistrationRepository from "Repositories/AccountRegistrationRepository";
 import {
   AccountRegistrationAdo,
@@ -9,9 +8,8 @@ import {
   ErrorAdo,
 } from "Types/Ado";
 import { ParamsDictionary, ParsedQs } from "Types/Express";
-import { config } from "Utilities/Config";
 import { sendEmail } from "Utilities/Email";
-import { fileExists, readTextFile } from "Utilities/Filesystem";
+import { getEmailTemplates } from "Utilities/EmailTemplate";
 import { getAdoFromAccountRegistration } from "Utilities/Mapping/Ado";
 import { getAccountRegistrationSpecFromAdo } from "Utilities/Mapping/Domain";
 import { hash } from "Utilities/Password";
@@ -25,20 +23,10 @@ const sendVerificationEmail = async (
   language: string,
   defaultLanguage: string
 ) => {
-  const { fileRoot } = config;
-
-  const localeFolder = language;
-  let templateFolder = join(fileRoot, "Assets/Email Templates", localeFolder);
-  const hasTemplatesForLanguage = await fileExists(templateFolder);
-  if (!hasTemplatesForLanguage) {
-    templateFolder = join(fileRoot, "Assets/Email Templates", defaultLanguage);
-  }
-
-  const htmlTemplate = await readTextFile(
-    join(templateFolder, "verify_email.html.template")
-  );
-  const textTemplate = await readTextFile(
-    join(templateFolder, "verify_email.txt.template")
+  const { htmlTemplate, textTemplate } = await getEmailTemplates(
+    "verify_email",
+    language,
+    defaultLanguage
   );
 
   const templateSpec = {

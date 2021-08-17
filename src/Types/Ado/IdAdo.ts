@@ -1,7 +1,4 @@
-export enum IdType {
-  Email = "Email",
-  Username = "Username",
-}
+import { IdType } from "Types/IdType";
 
 interface EmailId {
   email: string;

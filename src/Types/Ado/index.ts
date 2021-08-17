@@ -12,5 +12,6 @@ export * from "./IdAdo";
 export * from "./OAuthErrorAdo";
 export * from "./PasswordUpdateAdo";
 export * from "./PostAdo";
+export * from "./SendPasswordResetAdo";
 export * from "./TokenAdo";
 export * from "./TokenGrantAdo";

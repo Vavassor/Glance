@@ -3,6 +3,7 @@ import {
   deleteAccount,
   getAccountById,
   identifyAccount,
+  sendPasswordReset,
 } from "Controllers/Account";
 import express from "express";
 import {
@@ -16,6 +17,7 @@ import {
   validateDeleteAccount,
   validateGetAccountById,
   validateIdentifyAccount,
+  validateSendPasswordReset,
 } from "Validation/Account";
 
 const router = express.Router();
@@ -29,6 +31,14 @@ router
     validateIdentifyAccount,
     forDevelopmentEnvironment(enableCors),
     asyncHandler(identifyAccount)
+  )
+  .options(handleCorsPreflight);
+router
+  .route("/send_password_reset")
+  .post(
+    validateSendPasswordReset,
+    forDevelopmentEnvironment(enableCors),
+    asyncHandler(sendPasswordReset)
   )
   .options(handleCorsPreflight);
 

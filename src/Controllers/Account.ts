@@ -1,4 +1,10 @@
+import {
+  defaultLocale,
+  PASSWORD_RESET_TOKEN_LIFETIME_SECONDS,
+  SENDER_EMAIL,
+} from "Constants";
 import { RequestHandler } from "express";
+import { join } from "path";
 import * as AccountRegistrationRepository from "Repositories/AccountRegistrationRepository";
 import * as AccountRepository from "Repositories/AccountRepository";
 import {
@@ -8,21 +14,28 @@ import {
   IdentifyAccountAdo,
   IdentifyAccountResultAdo,
   PasswordUpdateAdo,
+  SendPasswordResetAdo,
 } from "Types/Ado";
 import { Account } from "Types/Domain";
 import { AccountLocals, ParamsDictionary, ParsedQs } from "Types/Express";
 import { HttpStatus } from "Types/HttpStatus";
+import { IdType } from "Types/IdType";
+import { config, getPrivateKey } from "Utilities/Config";
+import { deviceDetector, parseUserAgent } from "Utilities/DeviceDetector";
+import { sendEmail } from "Utilities/Email";
+import { getEmailTemplates } from "Utilities/EmailTemplate";
 import {
   getAccountAdoFromAccount,
   getErrorAdoFromMessage,
-} from "Utilities/Mapping/Ado";
-import {
   getIdentifyAccountResultAdoFromEmail,
   getIdentifyAccountResultAdoFromUsername,
-} from "Utilities/Mapping/Ado/IdentifyAccountResultAdo";
+} from "Utilities/Mapping/Ado";
 import { getAccountSpecFromAccountRegistration } from "Utilities/Mapping/Domain";
 import { obscureEmail } from "Utilities/Obscuration";
-import { hash } from "Utilities/Password";
+import { getPartialDoubleHash, hash } from "Utilities/Password";
+import { fillTemplate } from "Utilities/Template";
+import { createPasswordResetToken } from "Utilities/Token";
+import { addQueryParameters } from "Utilities/Url";
 import isEmail from "validator/lib/isEmail";
 
 export const createAccount: RequestHandler<
@@ -132,6 +145,78 @@ export const identifyAccount: RequestHandler<
     );
   }
   response.json(resultAdo);
+};
+
+export const sendPasswordReset: RequestHandler<
+  ParamsDictionary,
+  ErrorAdo,
+  SendPasswordResetAdo,
+  ParsedQs
+> = async (request, response, next) => {
+  let account: Account | null;
+
+  const { id } = request.body;
+  switch (id.type) {
+    case IdType.Email:
+      account = await AccountRepository.findAccountByEmail(id.email);
+      break;
+
+    case IdType.Username:
+      account = await AccountRepository.findAccountByUsername(id.username);
+      break;
+  }
+
+  if (!account) {
+    response
+      .status(HttpStatus.UnprocessableEntity)
+      .json(getErrorAdoFromMessage(request.t("account.id_not_found_error")));
+    return;
+  }
+
+  // @TODO Use the side channel info in 'request.body' to determine where to
+  // send the reset token, instead of defaulting to the email.
+
+  const key = await getPartialDoubleHash(account.password);
+  const privateKey = await getPrivateKey(config);
+  const passwordResetToken = await createPasswordResetToken(
+    key,
+    account.id,
+    PASSWORD_RESET_TOKEN_LIFETIME_SECONDS,
+    privateKey,
+    config.urlRoot
+  );
+
+  const userAgent = request.header("User-Agent");
+  const { client, os } = parseUserAgent(userAgent, deviceDetector);
+
+  const { htmlTemplate, textTemplate } = await getEmailTemplates(
+    "password_reset_email",
+    request.language,
+    defaultLocale
+  );
+
+  const path = join(config.urlRoot, "password-reset");
+  const passwordResetLink = addQueryParameters(path, {
+    token: passwordResetToken,
+  });
+
+  const templateSpec = {
+    browser_name: client.name,
+    operating_system: os.name,
+    password_reset_link: passwordResetLink,
+    product_name: request.t("app.title"),
+    recipient_name: account.username,
+  };
+
+  await sendEmail({
+    html: fillTemplate(htmlTemplate, templateSpec),
+    from: SENDER_EMAIL,
+    subject: "Password Reset Requested",
+    text: fillTemplate(textTemplate, templateSpec),
+    to: account.email,
+  });
+
+  response.status(HttpStatus.NoContent).header("Content-Length", "0").end();
 };
 
 export const updatePassword: RequestHandler<
