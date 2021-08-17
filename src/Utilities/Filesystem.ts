@@ -1,4 +1,12 @@
-import { readFile } from "fs";
+import { access, constants, readFile } from "fs";
+
+export const fileExists = async (path: string) => {
+  return new Promise((resolve, reject) => {
+    access(path, constants.R_OK, (error) => {
+      resolve(!error);
+    });
+  });
+};
 
 export const readTextFile = async (path: string) => {
   return new Promise<string>((resolve, reject) => {

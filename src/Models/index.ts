@@ -4,6 +4,10 @@ import { Account, createAccountModel } from "./AccountModel";
 import { App, createAppModel } from "./AppModel";
 import { createPostModel, Post } from "./PostModel";
 import { createRefreshTokenModel, RefreshToken } from "./RefreshTokenModel";
+import {
+  createAccountRegistrationModel,
+  AccountRegistration,
+} from "./AccountRegistrationModel";
 
 export const sequelize = !!config.mysqlConnectionUri
   ? new Sequelize(config.mysqlConnectionUri)
@@ -17,6 +21,8 @@ export const sequelize = !!config.mysqlConnectionUri
     });
 
 export const AccountModel = createAccountModel(sequelize);
+export const AccountRegistrationModel =
+  createAccountRegistrationModel(sequelize);
 export const AppModel = createAppModel(sequelize);
 export const PostModel = createPostModel(sequelize);
 export const RefreshTokenModel = createRefreshTokenModel(sequelize);
@@ -24,4 +30,4 @@ export const RefreshTokenModel = createRefreshTokenModel(sequelize);
 AccountModel.hasMany(PostModel);
 PostModel.belongsTo(AccountModel);
 
-export type { Account, App, Post, RefreshToken };
+export type { Account, AccountRegistration, App, Post, RefreshToken };

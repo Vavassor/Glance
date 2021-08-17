@@ -1,10 +1,9 @@
-import { AccountSpecAdo } from "Types/Ado";
-import { AccountSpec } from "Types/Domain";
+import { AccountRegistration, AccountSpec } from "Types/Domain";
 
-export const getAccountSpecFromAccountSpecAdo = (
-  accountSpecAdo: AccountSpecAdo
+export const getAccountSpecFromAccountRegistration = (
+  accountRegistration: AccountRegistration
 ) => {
-  const { email, password, username } = accountSpecAdo;
+  const { email, password, username } = accountRegistration;
   const accountSpec: AccountSpec = {
     email,
     password,

@@ -1,5 +1,4 @@
 export interface AccountSpecAdo {
-  email: string;
-  password: string;
-  username: string;
+  account_registration_id: string;
+  email_verification_code: string;
 }

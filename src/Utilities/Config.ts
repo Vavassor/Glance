@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
-import { dirname, join } from "path";
-import { readTextFile } from "./Filesystem";
+import { dirname } from "path";
 import { parseBoolean } from "./String";
 
 export enum Environment {
@@ -19,6 +18,7 @@ export interface Config {
   port: number;
   privateKey?: string;
   resetDatabase: boolean;
+  sendgridApiKey: string;
   urlRoot: string;
 }
 
@@ -100,6 +100,7 @@ export const loadConfig = (): Config => {
   const resetDatabase = parseBoolean(
     loadEnvironmentVariable("RESET_DATABASE", defaults.resetDatabase.toString())
   );
+  const sendgridApiKey = loadEnvironmentVariable("SENDGRID_API_KEY");
   const urlRootWithoutPort = loadEnvironmentVariable(
     "URL_ROOT",
     defaults.urlRoot
@@ -116,6 +117,7 @@ export const loadConfig = (): Config => {
     mysqlUsername,
     port,
     resetDatabase,
+    sendgridApiKey,
     urlRoot,
   };
 
