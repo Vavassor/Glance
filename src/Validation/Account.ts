@@ -1,23 +1,17 @@
-import {
-  MAX_CHARS_PASSWORD,
-  MAX_CHARS_USERNAME,
-  MIN_CHARS_PASSWORD,
-  MIN_CHARS_USERNAME,
-} from "Constants";
+import { EMAIL_VERIFICATION_CODE_CHAR_COUNT } from "Constants";
 import { body, param } from "express-validator";
 import { handleValidationError } from "Middleware/ValidationErrorHandling";
-import { isObjectId, isPassword, isUsername } from "Utilities/Validation";
+import { isObjectId } from "Utilities/Validation";
 
 export const validateCreateAccount = [
-  body("email").exists().isEmail(),
-  body("password")
+  body("account_registration_id").exists().custom(isObjectId),
+  body("email_verification_code")
     .exists()
-    .isLength({ max: MAX_CHARS_PASSWORD, min: MIN_CHARS_PASSWORD })
-    .custom(isPassword),
-  body("username")
-    .exists()
-    .isLength({ max: MAX_CHARS_USERNAME, min: MIN_CHARS_USERNAME })
-    .custom(isUsername),
+    .isLength({
+      max: EMAIL_VERIFICATION_CODE_CHAR_COUNT,
+      min: EMAIL_VERIFICATION_CODE_CHAR_COUNT,
+    })
+    .isInt(),
   handleValidationError,
 ];
 

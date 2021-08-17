@@ -1,5 +1,7 @@
 {
   "account": {
+    "account_registration_id_not_found_error": "No account registration was found with the given ID.",
+    "email_verification_code_invalid_error": "The email verification code is invalid.",
     "id_not_found_error": "No account was found with the given ID."
   },
   "app": {

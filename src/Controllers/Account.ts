@@ -1,13 +1,19 @@
 import { RequestHandler } from "express";
 import * as AccountRepository from "Repositories/AccountRepository";
-import { AccountAdo, AccountSpecAdo, ErrorAdo, PasswordUpdateAdo } from "Types/Ado";
+import * as AccountRegistrationRepository from "Repositories/AccountRegistrationRepository";
+import {
+  AccountAdo,
+  AccountSpecAdo,
+  ErrorAdo,
+  PasswordUpdateAdo,
+} from "Types/Ado";
 import { AccountLocals, ParamsDictionary, ParsedQs } from "Types/Express";
 import { HttpStatus } from "Types/HttpStatus";
 import {
   getAccountAdoFromAccount,
   getErrorAdoFromMessage,
 } from "Utilities/Mapping/Ado";
-import { getAccountSpecFromAccountSpecAdo } from "Utilities/Mapping/Domain";
+import { getAccountSpecFromAccountRegistration } from "Utilities/Mapping/Domain";
 import { hash } from "Utilities/Password";
 
 export const createAccount: RequestHandler<
@@ -16,8 +22,34 @@ export const createAccount: RequestHandler<
   AccountSpecAdo,
   ParsedQs
 > = async (request, response, next) => {
-  const accountSpec = getAccountSpecFromAccountSpecAdo(request.body);
-  accountSpec.password = await hash(accountSpec.password);
+  const { account_registration_id, email_verification_code } = request.body;
+  const accountRegistration =
+    await AccountRegistrationRepository.findAccountRegistrationById(
+      account_registration_id
+    );
+
+  if (!accountRegistration) {
+    return response
+      .status(HttpStatus.UnprocessableEntity)
+      .json(
+        getErrorAdoFromMessage(
+          request.t("account.account_registration_id_not_found_error")
+        )
+      );
+  }
+
+  if (accountRegistration?.emailVerificationCode !== email_verification_code) {
+    return response
+      .status(HttpStatus.UnprocessableEntity)
+      .json(
+        getErrorAdoFromMessage(
+          request.t("account.email_verification_code_invalid_error")
+        )
+      );
+  }
+
+  const accountSpec =
+    getAccountSpecFromAccountRegistration(accountRegistration);
   const account = await AccountRepository.createAccount(accountSpec);
   response.json(getAccountAdoFromAccount(account));
 };

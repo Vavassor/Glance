@@ -1,7 +1,8 @@
+import { defaultLocale, SENDER_EMAIL } from "Constants";
 import { RequestHandler } from "express";
 import { TFunction } from "i18next";
 import { join } from "path";
-import * as RegistrationAccountRepository from "Repositories/RegistrationAccountRepository";
+import * as AccountRegistrationRepository from "Repositories/AccountRegistrationRepository";
 import {
   AccountRegistrationAdo,
   AccountRegistrationSpecAdo,
@@ -10,7 +11,7 @@ import {
 import { ParamsDictionary, ParsedQs } from "Types/Express";
 import { config } from "Utilities/Config";
 import { sendEmail } from "Utilities/Email";
-import { readTextFile } from "Utilities/Filesystem";
+import { fileExists, readTextFile } from "Utilities/Filesystem";
 import { getAdoFromAccountRegistration } from "Utilities/Mapping/Ado";
 import { getAccountRegistrationSpecFromAdo } from "Utilities/Mapping/Domain";
 import { hash } from "Utilities/Password";
@@ -20,17 +21,24 @@ import { fillTemplate } from "Utilities/Template";
 const sendVerificationEmail = async (
   recipientEmail: string,
   verificationCode: string,
-  t: TFunction
+  t: TFunction,
+  language: string,
+  defaultLanguage: string
 ) => {
   const { fileRoot } = config;
 
-  // @TODO: Localize the email.
+  const localeFolder = language;
+  let templateFolder = join(fileRoot, "Assets/Email Templates", localeFolder);
+  const hasTemplatesForLanguage = await fileExists(templateFolder);
+  if (!hasTemplatesForLanguage) {
+    templateFolder = join(fileRoot, "Assets/Email Templates", defaultLanguage);
+  }
 
   const htmlTemplate = await readTextFile(
-    join(fileRoot, "Assets/Email Templates/verify_email.html.template")
+    join(templateFolder, "verify_email.html.template")
   );
   const textTemplate = await readTextFile(
-    join(fileRoot, "Assets/Email Templates/verify_email.txt.template")
+    join(templateFolder, "verify_email.txt.template")
   );
 
   const templateSpec = {
@@ -44,7 +52,7 @@ const sendVerificationEmail = async (
   };
 
   await sendEmail({
-    from: "glance@glance.social",
+    from: SENDER_EMAIL,
     html: fillTemplate(htmlTemplate, templateSpec),
     subject: t("verification_email.subject", {
       email_verification_code: verificationCode,
@@ -67,9 +75,15 @@ export const createAccountRegistration: RequestHandler<
     emailVerificationCode
   );
   accountSpec.password = await hash(accountSpec.password);
-  const account = await RegistrationAccountRepository.createRegistrationAccount(
+  const account = await AccountRegistrationRepository.createAccountRegistration(
     accountSpec
   );
-  await sendVerificationEmail(email, emailVerificationCode, request.t);
+  await sendVerificationEmail(
+    email,
+    emailVerificationCode,
+    request.t,
+    request.language,
+    defaultLocale
+  );
   response.json(getAdoFromAccountRegistration(account));
 };
