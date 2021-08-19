@@ -6,6 +6,5 @@ export const getAccessTokenPayload = (accessToken: string) => {
   if (!isAccessTokenPayload(payload)) {
     return null;
   }
-  console.log(`access token payload`, payload);
   return payload;
 };
