@@ -175,6 +175,11 @@
   resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.1.tgz#1a32969cf8f0364b3d8c8af9cc3555b7805df14f"
   integrity sha512-Y2mHTRAbqfFkpjldbkHGY8JIzRN6XqYRliG8/24FcHm2D2PwW24fl5xMRTVGdrb7iMrwCaIEbLWerGIkXuFWVg==
 
+"@types/validator@^13.6.3":
+  version "13.6.3"
+  resolved "https://registry.yarnpkg.com/@types/validator/-/validator-13.6.3.tgz#31ca2e997bf13a0fffca30a25747d5b9f7dbb7de"
+  integrity sha512-fWG42pMJOL4jKsDDZZREnXLjc3UE0R8LOJfARWYg6U966rxDT7TYejYzLnUF5cvSObGg34nd0+H2wHHU5Omdfw==
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -438,6 +443,11 @@ detect-libc@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/detect-libc/-/detect-libc-1.0.3.tgz#fa137c4bd698edf55cd5cd02ac559f91a4c4ba9b"
   integrity sha1-+hN8S9aY7fVc1c0CrFWfkaTEups=
+
+device-detector-js@^2.2.10:
+  version "2.2.10"
+  resolved "https://registry.yarnpkg.com/device-detector-js/-/device-detector-js-2.2.10.tgz#a8fd47837ce89024d7647a4ddf18154d7a920538"
+  integrity sha512-zLcDSU10WIqbARXecaVJJxx0ZuGWq+MVhj9f9qehdBCFr9RMa5mQGTt2IZNIgKuCIind/j/DzRDViEdc2FfBGQ==
 
 diff@^4.0.1:
   version "4.0.2"
