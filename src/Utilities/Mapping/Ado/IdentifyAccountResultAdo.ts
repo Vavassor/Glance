@@ -1,8 +1,6 @@
-import {
-  IdentifyAccountResultAdo,
-  IdType,
-  RecoveryMethodType,
-} from "Types/Ado";
+import { IdentifyAccountResultAdo } from "Types/Ado";
+import { IdType } from "Types/IdType";
+import { RecoveryMethodType } from "Types/RecoveryMethodType";
 
 export const getIdentifyAccountResultAdoFromEmail = (
   email: string,
