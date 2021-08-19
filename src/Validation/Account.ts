@@ -3,7 +3,7 @@ import { body, oneOf, param } from "express-validator";
 import { handleValidationError } from "Middleware/ValidationErrorHandling";
 import { IdType } from "Types/IdType";
 import { RecoveryMethodType } from "Types/RecoveryMethodType";
-import { isObjectId, isUsername } from "Utilities/Validation";
+import { isObjectId, isPassword, isUsername } from "Utilities/Validation";
 
 export const validateCreateAccount = [
   body("account_registration_id").exists().custom(isObjectId),
@@ -49,5 +49,10 @@ export const validateSendPasswordReset = [
       body("recovery_method.type").equals(RecoveryMethodType.Email),
     ],
   ]),
+  handleValidationError,
+];
+
+export const validateUpdatePassword = [
+  body("password").exists().custom(isPassword),
   handleValidationError,
 ];

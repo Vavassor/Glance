@@ -4,8 +4,10 @@ import {
   getAccountById,
   identifyAccount,
   sendPasswordReset,
+  updatePassword,
 } from "Controllers/Account";
 import express from "express";
+import { authorizePasswordResetToken } from "Middleware/AuthorizeToken";
 import {
   enableCors,
   forDevelopmentEnvironment,
@@ -18,6 +20,7 @@ import {
   validateGetAccountById,
   validateIdentifyAccount,
   validateSendPasswordReset,
+  validateUpdatePassword,
 } from "Validation/Account";
 
 const router = express.Router();
@@ -31,6 +34,15 @@ router
     validateIdentifyAccount,
     forDevelopmentEnvironment(enableCors),
     asyncHandler(identifyAccount)
+  )
+  .options(handleCorsPreflight);
+router
+  .route("/password")
+  .post(
+    validateUpdatePassword,
+    forDevelopmentEnvironment(enableCors),
+    authorizePasswordResetToken,
+    asyncHandler(updatePassword)
   )
   .options(handleCorsPreflight);
 router
