@@ -18,9 +18,19 @@
     "about_link_label": "About",
     "home_link_label": "Home"
   },
+  "password_field": {
+    "hide_button_label": "Hide password",
+    "show_button_label": "Show password"
+  },
   "post_actions": {
     "reply_button_label": "Reply",
     "save_button_label": "Save",
     "share_button_label": "Share"
+  },
+  "registration_form": {
+    "email_field_label": "Email",
+    "password_field_label": "Password",
+    "send_verification_button_label": "Send verification",
+    "username_field_label": "Username"
   }
 }
