@@ -27,6 +27,9 @@
     "save_button_label": "Save",
     "share_button_label": "Share"
   },
+  "register": {
+    "connection_error": "Connection failed."
+  },
   "registration_form": {
     "email_field_label": "Email",
     "password_field_label": "Password",

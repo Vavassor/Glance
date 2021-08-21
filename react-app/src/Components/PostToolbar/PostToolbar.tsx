@@ -13,7 +13,7 @@ export interface ToolbarProps {
 
 export const Toolbar: React.FC<ToolbarProps> = ({ ariaLabel }) => {
   const { t } = useTranslation();
-  const [controls, _] = useState<Control[]>([
+  const [controls] = useState<Control[]>([
     { buttonKey: "reply", label: t("post_actions.reply_button_label") },
     { buttonKey: "share", label: t("post_actions.share_button_label") },
     { buttonKey: "save", label: t("post_actions.save_button_label") },

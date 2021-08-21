@@ -1,5 +1,6 @@
 import {
   AccountPublicAdo,
+  AccountRegistrationAdo,
   ErrorAdo,
   ErrorSingle,
   PostAdo,
@@ -11,6 +12,17 @@ import { isNumber, isString, isStringOrUndefined } from "./BasicTypeguards";
 export const isAccountPublicAdo = (value: any): value is AccountPublicAdo => {
   return (
     typeof value === "object" && isString(value.id) && isString(value.username)
+  );
+};
+
+export const isAccountRegistrationAdo = (
+  value: any
+): value is AccountRegistrationAdo => {
+  return (
+    typeof value === "object" &&
+    isString(value.email) &&
+    isString(value.id) &&
+    isString(value.username)
   );
 };
 
