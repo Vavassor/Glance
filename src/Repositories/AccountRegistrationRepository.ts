@@ -6,15 +6,14 @@ export const createAccountRegistration = async (
   spec: AccountRegistrationSpec
 ) => {
   const { email, emailVerificationCode, password, username } = spec;
-  const [model] = await AccountRegistrationModel.findOrCreate({
-    defaults: {
+  const [model] = await AccountRegistrationModel.upsert(
+    {
       email,
       email_verification_code: emailVerificationCode,
       password,
       username,
     },
-    where: { email },
-  });
+  );
   return getAccountRegistrationFromModel(model);
 };
 

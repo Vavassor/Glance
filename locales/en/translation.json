@@ -7,9 +7,6 @@
   "app": {
     "title": "Glance"
   },
-  "verification_email": {
-    "subject": "{{email_verification_code}} is your $t(app.title) verification code."
-  },
   "page_not_found": {
     "api_error_details": "We could not find the page \"{{path}}\".",
     "api_error_message": "Page not found",
@@ -37,5 +34,8 @@
     "invalid_parameter_error_headers": "Parameter \"{{parameter}}\" in the request header is invalid.",
     "invalid_parameter_error_params": "Parameter \"{{parameter}}\" in the path is invalid.",
     "invalid_parameter_error_query": "Parameter \"{{parameter}}\" in the query string is invalid."
+  },
+  "verification_email": {
+    "subject": "{{email_verification_code}} is your $t(app.title) verification code."
   }
 }

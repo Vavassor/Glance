@@ -14,6 +14,9 @@ export const accountRegistrationSlice = createSlice({
   initialState: initialAcccountRegistrationState,
   name: "accountRegistration",
   reducers: {
+    completeAccountRegistration: (state) => {
+      state.registration = null;
+    },
     setAccountRegistration: (
       state,
       action: PayloadAction<AccountRegistration>
@@ -26,5 +29,6 @@ export const accountRegistrationSlice = createSlice({
 export const selectAccountRegistration = (state: RootState) =>
   state.accountRegistration.registration;
 
-export const { setAccountRegistration } = accountRegistrationSlice.actions;
+export const { completeAccountRegistration, setAccountRegistration } =
+  accountRegistrationSlice.actions;
 export const accountRegistrationReducer = accountRegistrationSlice.reducer;

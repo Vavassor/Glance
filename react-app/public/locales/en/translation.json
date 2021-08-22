@@ -39,5 +39,9 @@
     "password_field_label": "Password",
     "send_verification_button_label": "Send verification",
     "username_field_label": "Username"
+  },
+  "verify_email": {
+    "connection_error": "Connection failed.",
+    "page_title": "Verify Email"
   }
 }

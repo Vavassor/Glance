@@ -25,7 +25,14 @@ import {
 
 const router = express.Router();
 
-router.route("/").post(validateCreateAccount, asyncHandler(createAccount));
+router
+  .route("/")
+  .post(
+    validateCreateAccount,
+    forDevelopmentEnvironment(enableCors),
+    asyncHandler(createAccount)
+  )
+  .options(handleCorsPreflight);
 router.route("/:id").delete(validateDeleteAccount, asyncHandler(deleteAccount));
 router.route("/:id").get(validateGetAccountById, asyncHandler(getAccountById));
 router
