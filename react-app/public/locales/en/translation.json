@@ -2,6 +2,10 @@
   "app": {
     "title": "Glance"
   },
+  "email_verification_form": {
+    "submit_button_label": "Register",
+    "verification_code_field_label": "Code"
+  },
   "home": {
     "logout_button_label": "Log out"
   },
@@ -18,9 +22,26 @@
     "about_link_label": "About",
     "home_link_label": "Home"
   },
+  "password_field": {
+    "hide_button_label": "Hide password",
+    "show_button_label": "Show password"
+  },
   "post_actions": {
     "reply_button_label": "Reply",
     "save_button_label": "Save",
     "share_button_label": "Share"
+  },
+  "register": {
+    "connection_error": "Connection failed."
+  },
+  "registration_form": {
+    "email_field_label": "Email",
+    "password_field_label": "Password",
+    "send_verification_button_label": "Send verification",
+    "username_field_label": "Username"
+  },
+  "verify_email": {
+    "connection_error": "Connection failed.",
+    "page_title": "Verify Email"
   }
 }

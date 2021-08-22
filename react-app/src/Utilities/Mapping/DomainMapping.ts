@@ -1,6 +1,12 @@
-import { PostAdo, TokenAdo } from "Types/Ado";
+import { AccountRegistrationAdo, PostAdo, TokenAdo } from "Types/Ado";
 import { AccountAdo, AccountPublicAdo } from "Types/Ado/AccountAdo";
-import { AccessToken, Account, AccountPublic, Post } from "Types/Domain";
+import {
+  AccessToken,
+  Account,
+  AccountPublic,
+  AccountRegistration,
+  Post,
+} from "Types/Domain";
 import { getDateInSeconds } from "Utilities/Date";
 
 export const getAccessTokenFromTokenAdo = (tokenAdo: TokenAdo): AccessToken => {
@@ -29,6 +35,16 @@ export const getAccountPublicFromAccountPublicAdo = (
     id,
     username,
   };
+};
+
+export const getAccountRegistrationFromAdo = (ado: AccountRegistrationAdo) => {
+  const { email, id, username } = ado;
+  const accountRegistration: AccountRegistration = {
+    email,
+    id,
+    username,
+  };
+  return accountRegistration;
 };
 
 export const getPostFromPostAdo = (postAdo: PostAdo): Post => {

@@ -72,7 +72,10 @@ export const createAccount: RequestHandler<
 
   const accountSpec =
     getAccountSpecFromAccountRegistration(accountRegistration);
-  const account = await AccountRepository.createAccount(accountSpec);
+  const account = await AccountRepository.createAccount(
+    accountSpec,
+    accountRegistration.id
+  );
   response.json(getAccountAdoFromAccount(account));
 };
 

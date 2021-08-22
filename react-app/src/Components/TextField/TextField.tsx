@@ -1,13 +1,17 @@
 import clsx from "clsx";
 import React, {
   DetailedHTMLProps,
+  FocusEventHandler,
   forwardRef,
   InputHTMLAttributes,
+  ReactNode,
+  useState,
 } from "react";
 import { createId, joinIds } from "Utilities/HtmlIdAttribute";
 
-interface TextFieldProps {
+export interface TextFieldProps {
   className?: string;
+  endInset?: ReactNode;
   errorId?: string;
   hasError?: boolean;
   helpId?: string;
@@ -21,12 +25,14 @@ interface TextFieldProps {
   label: string;
   name: string;
   placeholder?: string;
+  startInset?: ReactNode;
 }
 
 export const TextField = forwardRef<HTMLDivElement, TextFieldProps>(
   (
     {
       className,
+      endInset,
       errorId,
       hasError,
       helpId,
@@ -37,16 +43,34 @@ export const TextField = forwardRef<HTMLDivElement, TextFieldProps>(
       label,
       name,
       placeholder,
+      startInset,
     },
     ref
   ) => {
+    const { onBlur, onFocus, ...remainingInputProps } = inputProps || {};
+    const [isFocused, setIsFocused] = useState(false);
     const inputId = createId(id, "input");
+
+    const handleBlur: FocusEventHandler<HTMLInputElement> = (event) => {
+      if (onBlur) {
+        onBlur(event);
+      }
+      setIsFocused(false);
+    };
+
+    const handleFocus: FocusEventHandler<HTMLInputElement> = (event) => {
+      if (onFocus) {
+        onFocus(event);
+      }
+      setIsFocused(true);
+    };
 
     return (
       <div
         className={clsx(
-          "border border-gray-500 flex-col focus-within:border-focus focus-within:ring-2 focus-within:ring-focus rounded",
+          "border border-gray-500 flex-col rounded",
           !!hasError && "border-red-700",
+          isFocused && "border-focus ring-2 ring-focus",
           className
         )}
         id={id}
@@ -56,18 +80,24 @@ export const TextField = forwardRef<HTMLDivElement, TextFieldProps>(
           {label}
           {isRequired && <span aria-hidden="true">&thinsp;*</span>}
         </label>
-        <input
-          aria-describedby={joinIds(errorId, helpId)}
-          aria-invalid={hasError}
-          className="block outline-none px-2 pb-1 rounded w-full"
-          disabled={isDisabled}
-          id={inputId}
-          name={name}
-          placeholder={placeholder}
-          required={isRequired}
-          type="text"
-          {...inputProps}
-        />
+        <div className="flex flex-row pb-1 px-2">
+          {startInset}
+          <input
+            aria-describedby={joinIds(errorId, helpId)}
+            aria-invalid={hasError}
+            className="block outline-none rounded w-full"
+            disabled={isDisabled}
+            id={inputId}
+            name={name}
+            onBlur={handleBlur}
+            onFocus={handleFocus}
+            placeholder={placeholder}
+            required={isRequired}
+            type="text"
+            {...remainingInputProps}
+          />
+          {endInset}
+        </div>
       </div>
     );
   }

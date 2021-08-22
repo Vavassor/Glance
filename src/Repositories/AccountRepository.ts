@@ -1,14 +1,27 @@
-import { AccountModel } from "Models";
+import { AccountModel, AccountRegistrationModel, sequelize } from "Models";
 import { AccountSpec } from "Types/Domain";
 import { getAccountFromAccountModel } from "Utilities/Mapping/Domain";
 
-export const createAccount = async (spec: AccountSpec) => {
+export const createAccount = async (
+  spec: AccountSpec,
+  registrationId: string
+) => {
   const { email, password, username } = spec;
-  const accountModel = await AccountModel.create({
-    email,
-    password,
-    username,
+  const accountModel = await sequelize.transaction(async (transaction) => {
+    await AccountRegistrationModel.destroy({
+      transaction,
+      where: { id: registrationId },
+    });
+    return await AccountModel.create(
+      {
+        email,
+        password,
+        username,
+      },
+      { transaction }
+    );
   });
+
   return getAccountFromAccountModel(accountModel);
 };
 
