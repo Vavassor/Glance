@@ -5,6 +5,7 @@ import { About } from "Pages/About";
 import { Home } from "Pages/Home";
 import { Login } from "Pages/Login";
 import { Register } from "Pages/Register";
+import { VerifyEmail } from "Pages/VerifyEmail";
 import React from "react";
 import {
   BrowserRouter as Router,
@@ -25,6 +26,7 @@ function App() {
         <Route component={About} exact path={RoutePath.About} />
         <Route component={Login} exact path={RoutePath.Login} />
         <Route component={Register} exact path={RoutePath.Register} />
+        <Route component={VerifyEmail} exact path={RoutePath.VerifyEmail} />
         <PrivateRoute component={Home} exact path={RoutePath.Home} />
       </Switch>
     </Router>

@@ -2,6 +2,10 @@
   "app": {
     "title": "Glance"
   },
+  "email_verification_form": {
+    "submit_button_label": "Register",
+    "verification_code_field_label": "Code"
+  },
   "home": {
     "logout_button_label": "Log out"
   },

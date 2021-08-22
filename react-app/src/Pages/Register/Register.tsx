@@ -3,13 +3,18 @@ import {
   RegistrationForm,
   RegistrationFormData,
 } from "Components/RegistrationForm";
-import { useAccessToken } from "Hooks/useAccessToken";
+import { useAppDispatch } from "Hooks/ReduxHooks";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
+import { setAccountRegistration } from "Slices/AccountRegistrationSlice";
 import { AccountRegistrationSpec } from "Types/Domain";
+import { RoutePath } from "Types/RoutePath";
 import { createAccountRegistration } from "Utilities/Api";
 
 export const Register: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const history = useHistory();
   const { t } = useTranslation();
   const [hasError, setHasError] = useState(false);
 
@@ -20,7 +25,9 @@ export const Register: React.FC = () => {
         password: data.password,
         username: data.username,
       };
-      await createAccountRegistration(spec);
+      const accountRegistration = await createAccountRegistration(spec);
+      dispatch(setAccountRegistration(accountRegistration));
+      history.push(RoutePath.VerifyEmail);
     } catch (error) {
       setHasError(true);
     }
