@@ -4,6 +4,7 @@ import {
   AccountRegistrationAdo,
   ErrorAdo,
   ErrorSingle,
+  IdentifyAccountResultAdo,
   PostAdo,
   TokenAdo,
 } from "Types/Ado";
@@ -49,6 +50,17 @@ export const isErrorSingle = (value: any): value is ErrorSingle => {
     typeof value === "object" &&
     isString(value.message) &&
     isStringOrUndefined(value.details)
+  );
+};
+
+export const isIdentifyAccountResultAdo = (
+  value: any
+): value is IdentifyAccountResultAdo => {
+  return (
+    typeof value === "object" &&
+    isString(value.type) &&
+    ((value.type === "Email" && isString(value.email)) ||
+      (value.type === "Username" && isString(value.username)))
   );
 };
 

@@ -2,7 +2,7 @@ import { Alert } from "Components/Alert";
 import {
   RegistrationForm,
   RegistrationFormData,
-} from "Components/RegistrationForm";
+} from "Components/Forms/RegistrationForm";
 import { useAppDispatch } from "Hooks/ReduxHooks";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";

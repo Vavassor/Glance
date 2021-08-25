@@ -1,5 +1,5 @@
+import { LoginForm, LoginFormData } from "Components/Forms/LoginForm";
 import { Link } from "Components/Link";
-import { LoginForm, LoginFormData } from "Components/LoginForm";
 import { useAppDispatch } from "Hooks/ReduxHooks";
 import React from "react";
 import { useTranslation } from "react-i18next";

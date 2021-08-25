@@ -2,7 +2,7 @@ import { Alert } from "Components/Alert";
 import {
   EmailVerificationFormData,
   EmailVerificationFrom,
-} from "Components/EmailVerificationForm";
+} from "Components/Forms/EmailVerificationForm";
 import { useAppDispatch, useAppSelector } from "Hooks/ReduxHooks";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";

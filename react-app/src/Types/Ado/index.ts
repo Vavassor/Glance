@@ -3,5 +3,8 @@ export * from "./AccountRegistrationAdo";
 export * from "./AccountRegistrationSpecAdo";
 export * from "./AccountSpecAdo";
 export * from "./ErrorAdo";
+export * from "./IdAdo";
+export * from "./IdentifyAccountAdo";
+export * from "./IdentifyAccountResultAdo";
 export * from "./PostAdo";
 export * from "./TokenAdos";
