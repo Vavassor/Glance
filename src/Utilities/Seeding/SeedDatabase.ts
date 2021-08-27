@@ -28,7 +28,7 @@ const seedApp = async (appSpec: AppSpec) => {
 
 export const seedDatabase = async () => {
   const vavassor = await seedAccount({
-    email: "dawson.andrew@gmail.com",
+    email: "dawso.andrew@gmail.com",
     password: "password",
     username: "vavassor",
   });

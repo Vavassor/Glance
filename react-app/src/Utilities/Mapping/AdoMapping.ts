@@ -1,10 +1,38 @@
 import {
   AccountRegistrationSpecAdo,
   AccountSpecAdo,
+  IdAdo,
   IdentifyAccountAdo,
+  IdType,
+  SendPasswordResetAdo,
 } from "Types/Ado";
-import { AccountRegistrationSpec, AccountSpec } from "Types/Domain";
-import { IdentifyAccount } from "Types/Domain/IdentifyAccount";
+import {
+  AccountId,
+  AccountIdType,
+  AccountRegistrationSpec,
+  AccountSpec,
+  IdentifyAccount,
+  SendPasswordReset,
+} from "Types/Domain";
+
+export const getAdoFromAccountId = (id: AccountId) => {
+  switch (id.type) {
+    case AccountIdType.Email: {
+      const ado: IdAdo = {
+        email: id.email,
+        type: IdType.Email,
+      };
+      return ado;
+    }
+    case AccountIdType.Username: {
+      const ado: IdAdo = {
+        type: IdType.Username,
+        username: id.username,
+      };
+      return ado;
+    }
+  }
+};
 
 export const getAdoFromAccountRegistrationSpec = (
   accountRegistrationSpec: AccountRegistrationSpec
@@ -14,6 +42,17 @@ export const getAdoFromAccountRegistrationSpec = (
     email,
     password,
     username,
+  };
+  return ado;
+};
+
+export const getAdoFromSendPasswordReset = (
+  sendPasswordReset: SendPasswordReset
+) => {
+  const { id, recovery_method } = sendPasswordReset;
+  const ado: SendPasswordResetAdo = {
+    id: getAdoFromAccountId(id),
+    recovery_method,
   };
   return ado;
 };

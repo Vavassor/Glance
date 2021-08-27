@@ -7,6 +7,8 @@ import { useAppSelector } from "Hooks/ReduxHooks";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { selectIdentifyAccountResult } from "Slices/PasswordResetSlice";
+import { RecoveryMethodType } from "Types/Domain";
+import { sendPasswordReset } from "Utilities/Api";
 
 export const SendPasswordReset: React.FC = () => {
   const [hasError, setHasError] = useState(false);
@@ -20,6 +22,18 @@ export const SendPasswordReset: React.FC = () => {
 
   const handleSubmit = async (data: SendPasswordResetFormData) => {
     try {
+      const recoveryMethod = identifyAccountResult.recoveryMethods.find(
+        (recoveryMethod) => {
+          switch (recoveryMethod.type) {
+            case RecoveryMethodType.Email:
+              return recoveryMethod.email === data.recoveryMethod;
+          }
+        }
+      )!;
+      await sendPasswordReset({
+        id: identifyAccountResult.id,
+        recovery_method: recoveryMethod,
+      });
       setHasError(false);
     } catch (error) {
       setHasError(true);

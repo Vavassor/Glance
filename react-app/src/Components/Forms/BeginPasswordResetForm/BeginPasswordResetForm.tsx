@@ -19,7 +19,7 @@ export interface BeginPasswordResetProps {
 }
 
 const schema = yup.object().shape({
-  password: yup.string().required(),
+  emailOrUsername: yup.string().required().trim(),
 });
 
 export const BeginPasswordResetForm: React.FC<BeginPasswordResetProps> = ({

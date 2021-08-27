@@ -85,6 +85,7 @@ export const SendPasswordResetForm: React.FC<SendPasswordResetFormProps> = ({
                 id={createId(recoveryMethodGroupId, recoveryMethod.id)}
                 inputProps={{ ...register("recoveryMethod") }}
                 isChecked={recoveryMethod === selectedRecoveryMethod}
+                key={recoveryMethod.id}
                 onClick={handleClick}
                 {...option}
               />
