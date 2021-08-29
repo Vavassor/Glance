@@ -48,7 +48,7 @@ export const SendPasswordResetForm: React.FC<SendPasswordResetFormProps> = ({
   recoveryMethods,
 }) => {
   const [selectedRecoveryMethod, setSelectedRecoveryMethod] =
-    useState<RecoveryMethod>();
+    useState<RecoveryMethod>(recoveryMethods[0]);
   const {
     register,
     handleSubmit,

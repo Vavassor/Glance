@@ -33,6 +33,9 @@
     "hide_button_label": "Hide password",
     "show_button_label": "Show password"
   },
+  "password_reset": {
+    "connection_error": "Connection failed."
+  },
   "password_reset_form": {
     "password_field_label": "Password",
     "reset_password_button_label": "Set password"

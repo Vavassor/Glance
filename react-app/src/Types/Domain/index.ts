@@ -5,5 +5,6 @@ export * from "./AccountRegistrationSpec";
 export * from "./AccountSpec";
 export * from "./IdentifyAccount";
 export * from "./IdentifyAccountResult";
-export * from "./SendPasswordReset";
+export * from "./PasswordUpdate";
 export * from "./Post";
+export * from "./SendPasswordReset";

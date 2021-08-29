@@ -25,6 +25,7 @@ export const SendPasswordReset: React.FC = () => {
       const recoveryMethod = identifyAccountResult.recoveryMethods.find(
         (recoveryMethod) => {
           switch (recoveryMethod.type) {
+            default:
             case RecoveryMethodType.Email:
               return recoveryMethod.email === data.recoveryMethod;
           }

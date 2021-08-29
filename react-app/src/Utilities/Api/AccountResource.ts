@@ -1,7 +1,13 @@
-import { AccountSpec, IdentifyAccount, SendPasswordReset } from "Types/Domain";
+import {
+  AccountSpec,
+  IdentifyAccount,
+  PasswordUpdate,
+  SendPasswordReset,
+} from "Types/Domain";
 import {
   getAdoFromAccountSpec,
   getAdoFromIdentifyAccount,
+  getAdoFromPasswordUpdate,
   getAdoFromSendPasswordReset,
 } from "Utilities/Mapping/AdoMapping";
 import {
@@ -48,6 +54,19 @@ export const sendPasswordReset = async (
   const ado = getAdoFromSendPasswordReset(sendPasswordReset);
 
   await callApi("account/send_password_reset", {
+    body: ado,
+    method: "POST",
+  });
+};
+
+export const updatePassword = async (
+  token: string,
+  passwordUpdate: PasswordUpdate
+) => {
+  const ado = getAdoFromPasswordUpdate(passwordUpdate);
+
+  await callApi("account/password", {
+    bearerToken: token,
     body: ado,
     method: "POST",
   });
