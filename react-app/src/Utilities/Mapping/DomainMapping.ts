@@ -1,10 +1,20 @@
-import { AccountRegistrationAdo, PostAdo, TokenAdo } from "Types/Ado";
+import {
+  AccountRegistrationAdo,
+  IdAdo,
+  IdentifyAccountResultAdo,
+  IdType,
+  PostAdo,
+  TokenAdo,
+} from "Types/Ado";
 import { AccountAdo, AccountPublicAdo } from "Types/Ado/AccountAdo";
 import {
   AccessToken,
   Account,
+  AccountId,
+  AccountIdType,
   AccountPublic,
   AccountRegistration,
+  IdentifyAccountResult,
   Post,
 } from "Types/Domain";
 import { getDateInSeconds } from "Utilities/Date";
@@ -27,6 +37,25 @@ export const getAccountFromAccountAdo = (accountAdo: AccountAdo): Account => {
   };
 };
 
+export const getAccountIdFromAdo = (ado: IdAdo) => {
+  switch (ado.type) {
+    case IdType.Email: {
+      const accountId: AccountId = {
+        email: ado.email,
+        type: AccountIdType.Email,
+      };
+      return accountId;
+    }
+    case IdType.Username: {
+      const accountId: AccountId = {
+        type: AccountIdType.Username,
+        username: ado.username,
+      };
+      return accountId;
+    }
+  }
+};
+
 export const getAccountPublicFromAccountPublicAdo = (
   accountPublicAdo: AccountPublicAdo
 ): AccountPublic => {
@@ -45,6 +74,17 @@ export const getAccountRegistrationFromAdo = (ado: AccountRegistrationAdo) => {
     username,
   };
   return accountRegistration;
+};
+
+export const getIdentifyAccountResultFromAdo = (
+  ado: IdentifyAccountResultAdo
+) => {
+  const { id, recovery_methods } = ado;
+  const identifyAccountResult: IdentifyAccountResult = {
+    id: getAccountIdFromAdo(id),
+    recoveryMethods: recovery_methods,
+  };
+  return identifyAccountResult;
 };
 
 export const getPostFromPostAdo = (postAdo: PostAdo): Post => {

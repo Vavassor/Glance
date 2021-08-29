@@ -202,13 +202,18 @@ export const sendPasswordReset: RequestHandler<
   const passwordResetLink = addQueryParameters(path, {
     token: passwordResetToken,
   });
+  const t = request.t;
 
   const templateSpec = {
+    app_name: request.t("app.title"),
     browser_name: client.name,
     operating_system: os.name,
     password_reset_link: passwordResetLink,
-    product_name: request.t("app.title"),
-    recipient_name: account.username,
+    Sender_Address: "123 Main Street",
+    Sender_City: "New York",
+    Sender_Name: t("app.title"),
+    Sender_State: "NY",
+    Sender_Zip: "10030",
   };
 
   await sendEmail({

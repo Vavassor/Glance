@@ -4,7 +4,10 @@ import {
   AccountRegistrationAdo,
   ErrorAdo,
   ErrorSingle,
+  IdAdo,
+  IdentifyAccountResultAdo,
   PostAdo,
+  RecoveryMethodAdo,
   TokenAdo,
 } from "Types/Ado";
 import { every } from "Utilities/Array";
@@ -52,6 +55,25 @@ export const isErrorSingle = (value: any): value is ErrorSingle => {
   );
 };
 
+export const isIdAdo = (value: any): value is IdAdo => {
+  return (
+    typeof value === "object" &&
+    isString(value.type) &&
+    ((value.type === "Email" && isString(value.email)) ||
+      (value.type === "Username" && isString(value.username)))
+  );
+};
+
+export const isIdentifyAccountResultAdo = (
+  value: any
+): value is IdentifyAccountResultAdo => {
+  return (
+    typeof value === "object" &&
+    isIdAdo(value.id) &&
+    every(value.recovery_methods, isRecoveryMethodAdo)
+  );
+};
+
 export const isPostAdo = (value: any): value is PostAdo => {
   return (
     typeof value === "object" &&
@@ -65,6 +87,16 @@ export const isPostAdo = (value: any): value is PostAdo => {
 
 export const isPostAdoArray = (value: any): value is PostAdo[] => {
   return Array.isArray(value) && every(value, isPostAdo);
+};
+
+export const isRecoveryMethodAdo = (value: any): value is RecoveryMethodAdo => {
+  return (
+    typeof value === "object" &&
+    isString(value.type) &&
+    value.type === "Email" &&
+    isString(value.id) &&
+    isString(value.email)
+  );
 };
 
 export const isTokenAdo = (value: any): value is TokenAdo => {
