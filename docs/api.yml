@@ -1,0 +1,103 @@
+openapi: 3.0.2
+info:
+  title: Glance API
+  version: "1.0"
+servers:
+  - url: https://glance.social/api/v1
+tags:
+  - name: Account
+paths:
+  "/account":
+    post:
+      description: "Create account"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+                $ref: "#/components/schemas/AccountSpecAdo"
+        required: true
+      responses:
+        "200":
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/AccountAdo"
+          description: OK
+      tags:
+        - Account
+  "/account/{id}":
+    delete:
+      description: "Delete account"
+      parameters:
+        - description: Account ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: "No content"
+      tags:
+        - Account
+    get:
+      description: "Get account by ID"
+      parameters:
+        - description: Account ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/AccountAdo"
+          description: OK
+      tags:
+        - Account
+components:
+  schemas:
+    AccountAdo:
+      properties:
+        email:
+          type: string
+        id:
+          type: string
+        username:
+          type: string
+      required:
+        - email
+        - id
+        - username
+      type: object
+    AccountSpecAdo:
+      properties:
+        account_registration_id:
+          type: string
+        email_verification_code:
+          type: string
+      required:
+        - account_registration_id
+        - email_verification_code
+      type: object
+    ErrorAdo:
+      properties:
+        errors:
+          items:
+            $ref: "#/components/schemas/ErrorSingle"
+          type: array
+      required:
+        - errors
+      type: object
+    ErrorSingle:
+      properties:
+        details:
+          type: string
+        message:
+          type: string
+      required:
+        - message
+      type: object
