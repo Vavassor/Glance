@@ -29,7 +29,8 @@
   },
   "main_nav": {
     "about_link_label": "About",
-    "home_link_label": "Home"
+    "home_link_label": "Home",
+    "post_link_label": "Post"
   },
   "password_field": {
     "hide_button_label": "Hide password",
@@ -47,6 +48,10 @@
     "reply_button_label": "Reply",
     "save_button_label": "Save",
     "share_button_label": "Share"
+  },
+  "post_form": {
+    "content_field_label": "Content",
+    "post_button_label": "Post"
   },
   "register": {
     "connection_error": "Connection failed.",

@@ -47,7 +47,7 @@ export const Home: React.FC = () => {
             "dark:text-white focus:outline-none focus:ring-2 focus:ring-focus",
         }}
         articles={posts}
-        feedProps={{ className: "gap-3" }}
+        feedProps={{ className: "gap-3 m-auto max-w-sm py-2" }}
         getKey={getKey}
         idPrefix="latest-posts"
         isLoadingArticles={postLoadStatus === AsyncStatus.Pending}
