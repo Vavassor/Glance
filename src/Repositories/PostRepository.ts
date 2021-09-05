@@ -3,12 +3,20 @@ import { PostSpec } from "Types/Domain";
 import { getPostFromPostModel } from "Utilities/Mapping/Domain";
 import { getQuerySelector } from "Utilities/Sequelize";
 
-export const createPost = async (spec: PostSpec) => {
+export const createPost = async (accountId: string, spec: PostSpec) => {
   const { content } = spec;
-  const post = await PostModel.create({
+  const createdPost = await PostModel.create({
+    AccountId: accountId,
     content,
     title: "Untitled",
   });
+  const post = await PostModel.findByPk(createdPost.id, {
+    include: AccountModel,
+  });
+  if (!post) {
+    throw new Error("Failed finding a post after its creation.");
+  }
+  console.log("post", post);
   return getPostFromPostModel(post);
 };
 

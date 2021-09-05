@@ -53,6 +53,6 @@ export const createPost: RequestHandler<
   ParsedQs
 > = async (request, response, next) => {
   const spec = getPostSpecFromAdo(request.body);
-  const post = await PostRepository.createPost(spec);
+  const post = await PostRepository.createPost(response.locals.accountId, spec);
   response.json(getPostAdoFromPost(post));
 };
