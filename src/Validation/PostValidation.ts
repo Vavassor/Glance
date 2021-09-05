@@ -1,7 +1,12 @@
 import { MAX_SEARCH_RESULTS } from "Constants";
-import { query } from "express-validator";
+import { body, query } from "express-validator";
 import { handleValidationError } from "Middleware/ValidationErrorHandling";
 import { isObjectId } from "Utilities/Validation";
+
+export const validateCreatePost = [
+  body("content").exists().isString(),
+  handleValidationError,
+];
 
 export const validateGetAccountTimelinePosts = [
   query("limit")

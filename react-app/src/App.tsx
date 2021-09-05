@@ -6,6 +6,7 @@ import { BeginPasswordReset } from "Pages/BeginPasswordReset";
 import { Home } from "Pages/Home";
 import { Login } from "Pages/Login";
 import { PasswordReset } from "Pages/PasswordReset";
+import { Post } from "Pages/Post";
 import { Register } from "Pages/Register";
 import { SendPasswordReset } from "Pages/SendPasswordReset";
 import { VerifyEmail } from "Pages/VerifyEmail";
@@ -42,6 +43,7 @@ function App() {
         />
         <Route component={VerifyEmail} exact path={RoutePath.VerifyEmail} />
         <PrivateRoute component={Home} exact path={RoutePath.Home} />
+        <PrivateRoute component={Post} exact path={RoutePath.Post} />
       </Switch>
     </Router>
   );

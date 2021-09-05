@@ -14,22 +14,29 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className="dark:text-white">
+    <header className="dark:text-white m-auto max-w-sm">
       <nav>
-        <h1>
-          <NavLink
-            activeClassName="text-indigo-800 dark:text-indigo-200"
-            exact
-            to="/"
-          >
-            {t("main_nav.home_link_label")}
-          </NavLink>
-        </h1>
         <NavLink
           activeClassName="text-indigo-800 dark:text-indigo-200"
+          className="block"
+          exact
+          to="/home"
+        >
+          {t("main_nav.home_link_label")}
+        </NavLink>
+        <NavLink
+          activeClassName="text-indigo-800 dark:text-indigo-200"
+          className="block"
           to="/about"
         >
           {t("main_nav.about_link_label")}
+        </NavLink>
+        <NavLink
+          activeClassName="text-indigo-800 dark:text-indigo-200"
+          className="block"
+          to="/post"
+        >
+          {t("main_nav.post_link_label")}
         </NavLink>
       </nav>
 

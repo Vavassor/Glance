@@ -7,3 +7,7 @@ export interface PostAdo {
   id: string;
   title: string;
 }
+
+export interface PostSpecAdo {
+  content: string;
+}

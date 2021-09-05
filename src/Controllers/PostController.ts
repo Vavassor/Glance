@@ -1,10 +1,11 @@
 import { RequestHandler } from "express";
+import * as PostRepository from "Repositories/PostRepository";
 import { findAccountTimelinePosts } from "Repositories/PostRepository";
-import { ErrorAdo } from "Types/Ado/ErrorAdo";
-import { PostAdo } from "Types/Ado/PostAdo";
+import { ErrorAdo, PostAdo, PostSpecAdo } from "Types/Ado";
 import { AccountLocals, ParamsDictionary, ParsedQs } from "Types/Express";
 import { config } from "Utilities/Config";
 import { getPostAdoFromPost } from "Utilities/Mapping/Ado";
+import { getPostSpecFromAdo } from "Utilities/Mapping/Domain";
 import {
   getIdLimits,
   getLinkEntityHeader,
@@ -43,4 +44,15 @@ export const getAccountTimelinePosts: RequestHandler<
   }
 
   response.json(posts.map(getPostAdoFromPost));
+};
+
+export const createPost: RequestHandler<
+  ParamsDictionary,
+  PostAdo | ErrorAdo,
+  PostSpecAdo,
+  ParsedQs
+> = async (request, response, next) => {
+  const spec = getPostSpecFromAdo(request.body);
+  const post = await PostRepository.createPost(response.locals.accountId, spec);
+  response.json(getPostAdoFromPost(post));
 };

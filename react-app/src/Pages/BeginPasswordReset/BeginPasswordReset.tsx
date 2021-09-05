@@ -30,6 +30,9 @@ export const BeginPasswordReset: React.FC = () => {
 
   return (
     <div className="m-auto max-w-sm px-3">
+      <header className="py-4">
+        <h1>{t("begin_password_reset.main_heading")}</h1>
+      </header>
       {hasError && <Alert>{t("begin_password_reset.connection_error")}</Alert>}
       <BeginPasswordResetForm onSubmit={handleSubmit} />
     </div>

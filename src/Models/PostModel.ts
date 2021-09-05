@@ -1,4 +1,5 @@
 import {
+  BelongsToGetAssociationMixin,
   BelongsToSetAssociationMixin,
   DataTypes,
   Model,
@@ -32,6 +33,7 @@ export class Post
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
+  public getAccount!: BelongsToGetAssociationMixin<Account>;
   public setAccount!: BelongsToSetAssociationMixin<Account, number>;
 }
 

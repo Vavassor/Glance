@@ -5,6 +5,7 @@ import {
   IdentifyAccountAdo,
   IdType,
   PasswordUpdateAdo,
+  PostSpecAdo,
   SendPasswordResetAdo,
 } from "Types/Ado";
 import {
@@ -14,6 +15,7 @@ import {
   AccountSpec,
   IdentifyAccount,
   PasswordUpdate,
+  PostSpec,
   SendPasswordReset,
 } from "Types/Domain";
 
@@ -52,6 +54,14 @@ export const getAdoFromPasswordUpdate = (passwordUpdate: PasswordUpdate) => {
   const { password } = passwordUpdate;
   const ado: PasswordUpdateAdo = {
     password,
+  };
+  return ado;
+};
+
+export const getAdoFromPostSpec = (spec: PostSpec) => {
+  const { content } = spec;
+  const ado: PostSpecAdo = {
+    content,
   };
   return ado;
 };

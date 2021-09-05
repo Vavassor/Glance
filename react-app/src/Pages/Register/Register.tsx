@@ -36,7 +36,7 @@ export const Register: React.FC = () => {
   return (
     <div className="m-auto max-w-sm px-3">
       <header className="py-4">
-        <h1>{t("app.title")}</h1>
+        <h1>{t("register.main_heading")}</h1>
       </header>
       {hasError && <Alert>{t("register.connection_error")}</Alert>}
       <RegistrationForm onSubmit={handleSubmit} />

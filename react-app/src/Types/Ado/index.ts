@@ -7,6 +7,6 @@ export * from "./IdAdo";
 export * from "./IdentifyAccountAdo";
 export * from "./IdentifyAccountResultAdo";
 export * from "./PasswordUpdateAdo";
-export * from "./PostAdo";
+export * from "./PostAdos";
 export * from "./SendPasswordResetAdo";
 export * from "./TokenAdos";
