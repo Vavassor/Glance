@@ -53,6 +53,9 @@
     "content_field_label": "Content",
     "post_button_label": "Post"
   },
+  "post_page": {
+    "connection_error": "Connection failed."
+  },
   "register": {
     "connection_error": "Connection failed.",
     "main_heading": "Register an account"

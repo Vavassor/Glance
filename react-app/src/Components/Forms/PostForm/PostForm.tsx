@@ -19,7 +19,7 @@ export interface PostFormProps {
 }
 
 const schema = yup.object().shape({
-  content: yup.string().required(),
+  content: yup.string().required().trim(),
 });
 
 export const PostForm: React.FC<PostFormProps> = ({ className, onSubmit }) => {

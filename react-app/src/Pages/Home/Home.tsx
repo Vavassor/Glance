@@ -4,7 +4,7 @@ import { PostCard } from "Components/PostCard";
 import { useAccessToken } from "Hooks/useAccessToken";
 import React, { useEffect, useState } from "react";
 import { AsyncStatus } from "Types/AsyncStatus";
-import { Post } from "Types/Domain/Post";
+import { Post } from "Types/Domain";
 import { getAccountTimelinePosts } from "Utilities/Api";
 
 const getKey = (article: Post) => {
