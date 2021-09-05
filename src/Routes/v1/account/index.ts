@@ -21,7 +21,7 @@ import {
   validateIdentifyAccount,
   validateSendPasswordReset,
   validateUpdatePassword,
-} from "Validation/Account";
+} from "Validation/AccountValidation";
 
 const router = express.Router();
 
