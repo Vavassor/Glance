@@ -32,7 +32,7 @@ export const Login: React.FC = () => {
   return (
     <div className="m-auto max-w-sm px-3">
       <header className="py-4">
-        <h1>{t("app.title")}</h1>
+        <h1>{t("login.main_heading")}</h1>
       </header>
       <LoginForm onSubmit={handleSubmit} />
       <div className="flex flex-col items-start">
