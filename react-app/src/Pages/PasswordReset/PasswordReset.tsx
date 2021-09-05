@@ -34,6 +34,9 @@ export const PasswordReset: React.FC = () => {
 
   return (
     <div className="m-auto max-w-sm px-3">
+      <header className="py-4">
+        <h1>{t("password_reset.main_heading")}</h1>
+      </header>
       {hasError && <Alert>{t("password_reset.connection_error")}</Alert>}
       <PasswordResetForm onSubmit={handleSubmit} />
     </div>
