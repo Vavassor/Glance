@@ -3,29 +3,25 @@ import {
   BeginPasswordResetData,
   BeginPasswordResetForm,
 } from "Components/Forms/BeginPasswordResetForm";
-import { useAppDispatch } from "Hooks/ReduxHooks";
-import React, { useState } from "react";
+import { useAppDispatch, useAppSelector } from "Hooks/ReduxHooks";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
-import { setIdentifyAccountResult } from "Slices/PasswordResetSlice";
+import { identifyAccount } from "Slices/PasswordResetSlice";
+import { AsyncStatus } from "Types/AsyncStatus";
 import { RoutePath } from "Types/RoutePath";
-import { identifyAccount } from "Utilities/Api";
 
 export const BeginPasswordReset: React.FC = () => {
-  const [hasError, setHasError] = useState(false);
   const dispatch = useAppDispatch();
   const history = useHistory();
   const { t } = useTranslation();
+  const status = useAppSelector(
+    (state) => state.passwordReset.identifyAccount.status
+  );
 
   const handleSubmit = async (data: BeginPasswordResetData) => {
-    try {
-      setHasError(false);
-      const result = await identifyAccount({ query: data.emailOrUsername });
-      dispatch(setIdentifyAccountResult(result));
-      history.push(RoutePath.SendPasswordReset);
-    } catch (error) {
-      setHasError(true);
-    }
+    await dispatch(identifyAccount({ query: data.emailOrUsername })).unwrap();
+    history.push(RoutePath.SendPasswordReset);
   };
 
   return (
@@ -33,7 +29,9 @@ export const BeginPasswordReset: React.FC = () => {
       <header className="py-4">
         <h1>{t("begin_password_reset.main_heading")}</h1>
       </header>
-      {hasError && <Alert>{t("begin_password_reset.connection_error")}</Alert>}
+      {status === AsyncStatus.Failure && (
+        <Alert>{t("begin_password_reset.connection_error")}</Alert>
+      )}
       <BeginPasswordResetForm onSubmit={handleSubmit} />
     </div>
   );

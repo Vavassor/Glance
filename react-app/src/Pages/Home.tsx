@@ -1,11 +1,10 @@
 import { Feed } from "Components/Feed";
 import { Header } from "Components/Header";
 import { PostCard } from "Components/PostCard";
-import { useAccessToken } from "Hooks/useAccessToken";
 import React, { useEffect, useState } from "react";
 import { AsyncStatus } from "Types/AsyncStatus";
 import { Post } from "Types/Domain";
-import { getAccountTimelinePosts } from "Utilities/Api";
+import { authService, getAccountTimelinePosts } from "Utilities/Api";
 
 const getKey = (article: Post) => {
   return article.id;
@@ -17,13 +16,12 @@ export const Home: React.FC = () => {
   const [postLoadStatus, setPostLoadStatus] = useState<AsyncStatus>(
     AsyncStatus.Idle
   );
-  const { getRefreshedAccessToken } = useAccessToken();
 
   useEffect(() => {
     const getPosts = async () => {
       try {
         setPostLoadStatus(AsyncStatus.Pending);
-        const accessToken = await getRefreshedAccessToken();
+        const accessToken = await authService.getRefreshedAccessToken();
         const posts = await getAccountTimelinePosts(accessToken.accessToken);
         setPosts(posts);
         setPostLoadStatus(AsyncStatus.Success);
@@ -33,7 +31,7 @@ export const Home: React.FC = () => {
     };
 
     getPosts();
-  }, [getRefreshedAccessToken]);
+  }, []);
 
   return (
     <>

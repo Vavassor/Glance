@@ -1,17 +1,15 @@
 import { Alert } from "Components/Alert";
 import { PostForm, PostFormData } from "Components/Forms/PostForm";
 import { Header } from "Components/Header";
-import { useAccessToken } from "Hooks/useAccessToken";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 import { PostSpec } from "Types/Domain";
 import { RoutePath } from "Types/RoutePath";
-import { createPost } from "Utilities/Api";
+import { authService, createPost } from "Utilities/Api";
 
 export const Post: React.FC = () => {
   const [hasError, setHasError] = useState(false);
-  const { getRefreshedAccessToken } = useAccessToken();
   const history = useHistory();
   const { t } = useTranslation();
 
@@ -21,7 +19,7 @@ export const Post: React.FC = () => {
       const spec: PostSpec = {
         content,
       };
-      const accessToken = await getRefreshedAccessToken();
+      const accessToken = await authService.getRefreshedAccessToken();
       await createPost(accessToken.accessToken, spec);
       history.push(RoutePath.Home);
     } catch (error) {
