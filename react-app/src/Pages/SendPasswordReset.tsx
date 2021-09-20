@@ -3,42 +3,45 @@ import {
   SendPasswordResetForm,
   SendPasswordResetFormData,
 } from "Components/Forms/SendPasswordResetForm";
-import { useAppSelector } from "Hooks/ReduxHooks";
-import React, { useState } from "react";
+import { useAppDispatch, useAppSelector } from "Hooks/ReduxHooks";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { selectIdentifyAccountResult } from "Slices/PasswordResetSlice";
+import {
+  selectIdentifyAccountResult,
+  sendPasswordReset,
+} from "Slices/PasswordResetSlice";
+import { AsyncStatus } from "Types/AsyncStatus";
 import { RecoveryMethodType } from "Types/Domain";
-import { sendPasswordReset } from "Utilities/Api";
 
 export const SendPasswordReset: React.FC = () => {
-  const [hasError, setHasError] = useState(false);
+  const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const identifyAccountResult = useAppSelector(selectIdentifyAccountResult);
+  const sendStatus = useAppSelector(
+    (state) => state.passwordReset.sendPasswordReset.status
+  );
 
   if (!identifyAccountResult) {
     // @TODO: Handle this scenario. Redirect back to login?
     return null;
   }
 
-  const handleSubmit = async (data: SendPasswordResetFormData) => {
-    try {
-      const recoveryMethod = identifyAccountResult.recoveryMethods.find(
-        (recoveryMethod) => {
-          switch (recoveryMethod.type) {
-            default:
-            case RecoveryMethodType.Email:
-              return recoveryMethod.email === data.recoveryMethod;
-          }
+  const handleSubmit = (data: SendPasswordResetFormData) => {
+    const recoveryMethod = identifyAccountResult.recoveryMethods.find(
+      (recoveryMethod) => {
+        switch (recoveryMethod.type) {
+          default:
+          case RecoveryMethodType.Email:
+            return recoveryMethod.email === data.recoveryMethod;
         }
-      )!;
-      await sendPasswordReset({
+      }
+    )!;
+    dispatch(
+      sendPasswordReset({
         id: identifyAccountResult.id,
         recovery_method: recoveryMethod,
-      });
-      setHasError(false);
-    } catch (error) {
-      setHasError(true);
-    }
+      })
+    );
   };
 
   return (
@@ -46,7 +49,9 @@ export const SendPasswordReset: React.FC = () => {
       <header className="py-4">
         <h1>{t("send_password_reset.main_heading")}</h1>
       </header>
-      {hasError && <Alert>{t("send_password_reset.connection_error")}</Alert>}
+      {sendStatus === AsyncStatus.Failure && (
+        <Alert>{t("send_password_reset.connection_error")}</Alert>
+      )}
       <SendPasswordResetForm
         onSubmit={handleSubmit}
         recoveryMethods={identifyAccountResult.recoveryMethods}

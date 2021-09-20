@@ -16,17 +16,21 @@ export const Login: React.FC = () => {
   const { t } = useTranslation();
 
   const handleSubmit = async (data: LoginFormData) => {
-    const accessToken = await exchangePassword(data.username, data.password);
-    const accessTokenPayload = getAccessTokenPayload(accessToken.accessToken);
-    const accountId = accessTokenPayload?.sub;
-    if (!accountId) {
-      logError(
-        "Failed to log in. The access token did not contain an account ID in the sub claim."
-      );
-      return;
+    try {
+      const accessToken = await exchangePassword(data.username, data.password);
+      const accessTokenPayload = getAccessTokenPayload(accessToken.accessToken);
+      const accountId = accessTokenPayload?.sub;
+      if (!accountId) {
+        logError(
+          "Failed to log in. The access token did not contain an account ID in the sub claim."
+        );
+        return;
+      }
+      dispatch(logIn({ accessToken, id: accountId }));
+      history.push(RoutePath.Home);
+    } catch (error) {
+      logError("Failed to log in.", error);
     }
-    dispatch(logIn({ accessToken, id: accountId }));
-    history.push(RoutePath.Home);
   };
 
   return (
